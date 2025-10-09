@@ -33,6 +33,7 @@ const Bouton: React.FC<BoutonProps> = ({
       className={`bouton ${clicked ? "clicked" : ""}`}
     >
       {label}
+      <img src="/assets/add-shopping-cart 1.svg" alt="Ajouter au panier" />
     </button>
   )
 }

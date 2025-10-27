@@ -16,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
+    <div className="page-container">
       <Toaster />
       <Header title="Bloop" />
       <InputField

@@ -21,6 +21,7 @@
   --black: #19121d;
   --primary: #2f38e2;
   --primary-hover: #2329b8;
+  --primary-disabled: #6b71f3;
   --secondary: #f651c4;
   --secondary-hover: #d645a8;
 }
@@ -29,14 +30,19 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: var(--white);
 }
 
-body {
+.page-container {
   color: var(--black);
   background: var(--white);
   font-family: "JUST";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 32px;
 }
 
 * {
@@ -46,8 +52,15 @@ body {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: var(--primary);
+  font-family: "JUST";
+  font-weight: 400;
+  font-size: 16px;
+}
+
+a:hover {
+  color: var(--primary-hover);
 }
 
 @media (prefers-color-scheme: dark) {

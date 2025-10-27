@@ -6,6 +6,7 @@
   justify-content: space-between;
 
   width: 100%;
+  max-width: 512px;
   height: 32px;
 
   padding: 4px 8px 4px 16px;
@@ -35,10 +36,6 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-
-.search-button:hover {
-  color: red;
 }
 
 .search-button:active {

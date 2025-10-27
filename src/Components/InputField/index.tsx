@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
+import "./style.css";
 
 interface InputFieldProps {
-  label: string;               // Le texte du label
-  id: string;                  // L'id du champ (lié au label)
-  type?: string;               // Type du champ (text, email, password, etc.)
-  value: string;               // Valeur actuelle
+  label: string; // Le texte du label
+  id: string; // L'id du champ (lié au label)
+  type?: string; // Type du champ (text, email, password, etc.)
+  value: string; // Valeur actuelle
   onChange: (value: string) => void; // Fonction appelée à chaque changement
-  placeholder?: string;        // Texte d’exemple
-  required?: boolean;          // Champ obligatoire ou non
+  placeholder?: string; // Texte d’exemple
+  required?: boolean; // Champ obligatoire ou non
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,11 +23,8 @@ const InputField: React.FC<InputFieldProps> = ({
   required = false,
 }) => {
   return (
-    <div className="mb-4">
-      <label
-        htmlFor={id}
-        className="InputField0"
-      >
+    <div className="input-field-container">
+      <label htmlFor={id} className="label">
         {label}
       </label>
       <input
@@ -36,7 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="InputField1 "
+        className="input-field"
       />
     </div>
   );

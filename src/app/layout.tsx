@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import InputField from "@/Components/InputField/InputField";
+import InputField from "@/Components/InputField";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

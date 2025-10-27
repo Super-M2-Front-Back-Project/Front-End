@@ -143,14 +143,17 @@ export default function SignUpPage() {
                         </div>
                          <label htmlFor="role" className="block text-sm font-medium text-gray-700">role"</label>
                         <div className="relative">
-                            <input
-                                type="text"
+                            <select
                                 id="role"
+                                value={role}
                                 onChange={(e) => setRole(e.target.value)}
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                placeholder=" Entrez votre prénom"
                                 required
-                            />
+                            >
+                                <option value="">Sélectionnez un rôle</option>
+                                <option value="Vendeur">Vendeur</option>
+                                <option value="Acheteur">Acheteur</option>
+                            </select>
                         </div>
                     </div>
                     {error && (

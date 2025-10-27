@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import styles from "./page.module.css";
 import Header from "@/Components/header";
 import Bouton from "@/Components/boutons";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import InputField from "@/Components/InputField/InputField";
 import ProductCard from "@/Components/Card";
 import { EmblaCarousel } from "@/Components/EmblaCarousel";
@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
+    <div className="page-container">
       <Toaster />
       <Header title="Bloop" />
       <InputField label="Email" id="email" type="email" value={email} onChange={handleChange} placeholder="Entrez votre email" required />

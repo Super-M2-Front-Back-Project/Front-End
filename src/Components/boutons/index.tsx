@@ -1,29 +1,32 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import "./style.css"
-import toast, { Toaster } from 'react-hot-toast';
+import React, { useState } from "react";
+import "./style.css";
+import toast, { Toaster } from "react-hot-toast";
+import ICON_MAP from "@/lib/icons";
 
 interface BoutonProps {
-  label: string            // le texte du bouton
-  onClick?: () => void     // fonction à exécuter au clic
-  type?: "button" | "submit" | "reset" // type de bouton (optionnel)
-  disabled?: boolean       // pour désactiver le bouton (optionnel)
+  label: string; // le texte du bouton
+  onClick?: () => void; // fonction à exécuter au clic
+  type?: "button" | "submit" | "reset"; // type de bouton (optionnel)
+  disabled?: boolean; // pour désactiver le bouton (optionnel)
+  iconName?: string;
 }
 
 const Bouton: React.FC<BoutonProps> = ({
   label,
   onClick,
   type = "button",
-  disabled = false
+  disabled = false,
+  iconName,
 }) => {
-  const [clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
-    setClicked(true)
-    onClick?.()
-    setTimeout(() => setClicked(false), 200) // petit effet visuel
-  }
+    setClicked(true);
+    onClick?.();
+    setTimeout(() => setClicked(false), 200); // petit effet visuel
+  };
 
   return (
     <button
@@ -33,9 +36,15 @@ const Bouton: React.FC<BoutonProps> = ({
       className={`bouton ${clicked ? "clicked" : ""}`}
     >
       {label}
-      <img src="/assets/add-shopping-cart 1.svg" alt="Ajouter au panier" />
+      {iconName && ICON_MAP[iconName]?.src ? (
+        <img
+          className="icon"
+          src={ICON_MAP[iconName].src}
+          alt={ICON_MAP[iconName].alt || iconName}
+        />
+      ) : null}
     </button>
-  )
-}
+  );
+};
 
-export default Bouton
+export default Bouton;

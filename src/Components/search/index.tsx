@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import "./style.css"
+import React, { useState } from "react";
+import "./style.css";
 
 interface SearchBarProps {
-  placeholder?: string
-  onSearch: (query: string) => void
-  className?: string
+  placeholder?: string;
+  onSearch: (query: string) => void;
+  className?: string;
 }
 
 export default function SearchBar({
@@ -14,12 +14,12 @@ export default function SearchBar({
   onSearch = () => {},
   className = "",
 }: SearchBarProps) {
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(query.trim())
-  }
+    e.preventDefault();
+    onSearch(query.trim());
+  };
 
   return (
     <form
@@ -33,9 +33,9 @@ export default function SearchBar({
         placeholder={placeholder}
         className="search-input" // input avec nouvelle classe
       />
-      <button type="submit" className="search-button"> 
-        <img src="/assets/search.svg" alt="Rechercher" />
+      <button type="submit" className="search-button">
+        <img src="/assets/icons/search.svg" alt="Rechercher" />
       </button>
     </form>
-  )
+  );
 }

@@ -8,6 +8,10 @@ import toast, { Toaster } from "react-hot-toast";
 import InputField from "@/Components/InputField";
 import ProductCard from "@/Components/Card";
 import { EmblaCarousel } from "@/Components/EmblaCarousel";
+import Login from "./auth/login/page";
+import SignUp from "./auth/sign-up/page";
+import Footer from "@/Components/Footer";
+// import Login from "./auth/login"; // Removed because module does not exist
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");

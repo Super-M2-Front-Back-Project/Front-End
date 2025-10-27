@@ -7,6 +7,7 @@ import Bouton from "@/Components/boutons";
 import toast, { Toaster } from "react-hot-toast";
 import InputField from "@/Components/InputField/InputField";
 import ProductCard from "@/Components/Card";
+import { EmblaCarousel } from "@/Components/EmblaCarousel";
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ export default function Home() {
         iconName="add-cart"
         onClick={() => toast("Produit 1 ajouté au panier")}
       />
+      <EmblaCarousel />
     </div>
   );
 }

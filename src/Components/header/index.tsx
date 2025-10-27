@@ -28,7 +28,7 @@ const Header: React.FC<{ title: string }> = ({ title }) => {
           <li>
             <Link href="/coup-de-coeur">
               <img
-                src="/assets/icons/heart.svg"
+                src="/assets/icons/heart-filled.svg"
                 alt="Coup de cœur"
                 className="icon-btn"
               />

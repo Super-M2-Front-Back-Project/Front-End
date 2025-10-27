@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import Header from "@/Components/header";
 import Bouton from "@/Components/boutons";
 import toast, { Toaster } from "react-hot-toast";
-import InputField from "@/Components/InputField/InputField";
+import InputField from "@/Components/InputField";
 import ProductCard from "@/Components/Card";
 import { EmblaCarousel } from "@/Components/EmblaCarousel";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function Home() {
       <Toaster />
       <Header title="Bloop" />
       <InputField
-        label="Email"
+        label="Adresse e-mail"
         id="email"
         type="email"
         value={email}

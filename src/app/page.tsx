@@ -7,6 +7,7 @@ import Bouton from "@/Components/boutons";
 import toast, { Toaster } from 'react-hot-toast';
 import InputField from "@/Components/InputField/InputField";
 import ProductCard from "@/Components/Card";
+import { EmblaCarousel } from "@/Components/EmblaCarousel";
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ export default function Home() {
       <InputField label="Email" id="email" type="email" value={email} onChange={handleChange} placeholder="Entrez votre email" required />
           <InputField label="password" id="password" type="password" value={email} onChange={handleChange} placeholder="Entrez votre password" required />
           <ProductCard title="Produit 1" description="Description du produit 1" price={29.99} imageUrl="https://img.over-blog-kiwi.com/1/46/83/86/20200325/ob_7f420b_lecture-scenario.png" onClick={() => toast('Produit 1 ajouté au panier')} />
-          
+          <EmblaCarousel />
     </div>
   );
 }

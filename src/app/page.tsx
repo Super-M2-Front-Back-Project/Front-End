@@ -13,7 +13,7 @@ import ButtonProps from "@/Components/AddToCartButton";
 import OrderList from "@/Components/OrderList";
 import ProfileCard from "@/Components/ProfileCard";
 import PanelContainer from "@/Components/PanelContainer";
-import SSearchBarProps from "@/Components/Search";
+import SearchBarProps from "@/Components/Search";
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");

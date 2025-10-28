@@ -4,7 +4,7 @@ import Link from "next/link";
 import SearchBar from "../search";
 import "./style.css";
 
-const Header: React.FC<{ title: string }> = ({ title }) => {
+const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="left-container">

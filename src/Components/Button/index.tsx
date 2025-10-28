@@ -5,15 +5,15 @@ import "./style.css";
 import ICON_MAP from "@/lib/icons";
 import Image from "next/image";
 
-interface BoutonProps {
-  label: string; // le texte du bouton
+interface ButtonProps {
+  label: string; // le texte du Button
   onClick?: () => void; // fonction à exécuter au clic
-  type?: "button" | "submit" | "reset"; // type de bouton (optionnel)
-  disabled?: boolean; // pour désactiver le bouton (optionnel)
+  type?: "button" | "submit" | "reset"; // type de Button (optionnel)
+  disabled?: boolean; // pour désactiver le Button (optionnel)
   iconName?: string;
 }
 
-const Bouton: React.FC<BoutonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
   type = "button",
@@ -49,4 +49,4 @@ const Bouton: React.FC<BoutonProps> = ({
   );
 };
 
-export default Bouton;
+export default Button;

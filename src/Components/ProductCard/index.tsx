@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Bouton from "../boutons";
+import Bouton from "../Button";
 import "./style.css";
 import Link from "next/link";
 

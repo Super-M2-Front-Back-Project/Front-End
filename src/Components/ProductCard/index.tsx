@@ -8,7 +8,7 @@ import Link from "next/link";
 
 interface ProductCardProps {
   product: {
-    id: number;
+    id: string;
     name: string;
     category: string[];
     imageUrl: string;
@@ -17,10 +17,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  product: { name: name, category: categories, imageUrl, price },
+  product: { id: id, name: name, category: categories, imageUrl, price },
 }) => {
+  console.log("ProductCard props:", { id, name, categories, imageUrl, price });
   return (
-    <Link className="container" href="#">
+    <Link className="container" href={`/products/${id}`}>
       <div className="thumbnail-container">
         <Image src={imageUrl} alt={name} fill className="thumbnail" />
       </div>

@@ -10,7 +10,13 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="left-container">
         <Link href={"/"}>
-          <img className="header-logo" src="/logo.svg" alt="Logo de BLOOP" />
+          <Image
+            height={50}
+            width={137}
+            className="header-logo"
+            src="/logo.svg"
+            alt="Logo de BLOOP"
+          />
         </Link>
         <SearchBar onSearch={(query: string) => {}} />
       </div>

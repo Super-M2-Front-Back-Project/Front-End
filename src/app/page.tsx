@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
 import Header from "@/Components/header";
 import Bouton from "@/Components/boutons";
 import toast, { Toaster } from "react-hot-toast";

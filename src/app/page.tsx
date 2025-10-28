@@ -1,66 +1,11 @@
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
+import { ProductService } from "@/lib/services/product.service";
 
-export default function Home() {
-  const products = [
-    {
-      id: 1,
-      name: "Chaise Scandinave",
-      category: ["Meubles", "Chaises"],
-      imageUrl: "/product.png",
-      price: 79.99,
-    },
-    {
-      id: 2,
-      name: "Table Basse Moderne",
-      category: ["Meubles", "Tables"],
-      imageUrl: "/product.png",
-      price: 129.99,
-    },
-    {
-      id: 3,
-      name: "Canapé Confortable",
-      category: ["Meubles", "Canapés"],
-      imageUrl: "/product.png",
-      price: 299.99,
-    },
-    {
-      id: 4,
-      name: "Lampe de Table Élégante",
-      category: ["Éclairage", "Lampes"],
-      imageUrl: "/product.png",
-      price: 49.99,
-    },
-    {
-      id: 5,
-      name: "Tapis Doux",
-      category: ["Décoration", "Tapis"],
-      imageUrl: "/product.png",
-      price: 89.99,
-    },
-    {
-      id: 6,
-      name: "Bibliothèque en Bois",
-      category: ["Meubles", "Rangements"],
-      imageUrl: "/product.png",
-      price: 199.99,
-    },
-    {
-      id: 7,
-      name: "Fauteuil Relaxant",
-      category: ["Meubles", "Fauteuils"],
-      imageUrl: "/product.png",
-      price: 149.99,
-    },
-    {
-      id: 8,
-      name: "Table à Manger Extensible",
-      category: ["Meubles", "Tables"],
-      imageUrl: "/product.png",
-      price: 399.99,
-    },
-  ];
+export default async function Home() {
+  // fetch depuis le back
+  const products = await ProductService.getAll();
 
   const slides = [
     {

@@ -1,43 +1,95 @@
-"use client";
-
-import Image from "next/image";
-import styles from "./page.module.css";
+import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
-import Bouton from "@/Components/boutons";
-import toast, { Toaster } from "react-hot-toast";
-import InputField from "@/Components/InputField";
-import { EmblaCarousel } from "@/Components/EmblaCarousel";
-import Footer from "@/Components/Footer";
-import ButtonProps from "@/Components/AddToCartButton";
-import OrderList from "@/Components/OrderList";
-import ProfileCard from "@/Components/ProfileCard";
-import PanelContainer from "@/Components/PanelContainer";
-import SearchBarProps from "@/Components/Search";
-import { useState } from "react";
-export default function Home() {
-  const [email, setEmail] = useState("");
+import { ProductGrid } from "@/Components/ProductGrid";
 
-  const handleChange = (value: string) => {
-    setEmail(value);
-  };
+export default function Home() {
+  const products = [
+    {
+      id: 1,
+      name: "Chaise Scandinave",
+      category: ["Meubles", "Chaises"],
+      imageUrl: "/product.png",
+      price: 79.99,
+    },
+    {
+      id: 2,
+      name: "Table Basse Moderne",
+      category: ["Meubles", "Tables"],
+      imageUrl: "/product.png",
+      price: 129.99,
+    },
+    {
+      id: 3,
+      name: "Canapé Confortable",
+      category: ["Meubles", "Canapés"],
+      imageUrl: "/product.png",
+      price: 299.99,
+    },
+    {
+      id: 4,
+      name: "Lampe de Table Élégante",
+      category: ["Éclairage", "Lampes"],
+      imageUrl: "/product.png",
+      price: 49.99,
+    },
+    {
+      id: 5,
+      name: "Tapis Doux",
+      category: ["Décoration", "Tapis"],
+      imageUrl: "/product.png",
+      price: 89.99,
+    },
+    {
+      id: 6,
+      name: "Bibliothèque en Bois",
+      category: ["Meubles", "Rangements"],
+      imageUrl: "/product.png",
+      price: 199.99,
+    },
+    {
+      id: 7,
+      name: "Fauteuil Relaxant",
+      category: ["Meubles", "Fauteuils"],
+      imageUrl: "/product.png",
+      price: 149.99,
+    },
+    {
+      id: 8,
+      name: "Table à Manger Extensible",
+      category: ["Meubles", "Tables"],
+      imageUrl: "/product.png",
+      price: 399.99,
+    },
+  ];
+
+  const slides = [
+    {
+      src: "/product.png",
+      alt: "Produit 1",
+      caption: "Découvrez notre sélection de meubles",
+    },
+    {
+      src: "/product.png",
+      alt: "Produit 2",
+      caption: "Découvrez notre sélection de meubles",
+    },
+    {
+      src: "/product.png",
+      alt: "Produit 3",
+      caption: "Découvrez notre sélection de meubles",
+    },
+    {
+      src: "/product.png",
+      alt: "Produit 4",
+      caption: "Découvrez notre sélection de meubles",
+    },
+  ];
 
   return (
     <div className="page-container">
-      <Toaster />
-<Header title="Bloop" />
-<InputField label="Email" id="email" type="email" value={email} onChange={handleChange} placeholder="Entrez votre email" required />
-<InputField label="nom" id="nom" type="text" value={email} onChange={handleChange} placeholder="Entrez votre nom" required />
-<InputField label="Prénom" id="prenom" type="text" value={email} onChange={handleChange} placeholder="Entrez votre prénom" required />
-<InputField label="password" id="password" type="password" value={email} onChange={handleChange} placeholder="Entrez votre password" required />
-<EmblaCarousel />
-
-<Footer />
-<ButtonProps>Ajouter au panier</ButtonProps>
-<OrderList></OrderList>
-<ProfileCard profile={null}></ProfileCard>
-<PanelContainer title="Mon Panel">
-  <div>Contenu du panel</div>
-</PanelContainer>
-</div>
-);
+      <Header />
+      <EmblaCarousel slides={slides} />
+      <ProductGrid products={products} />
+    </div>
+  );
 }

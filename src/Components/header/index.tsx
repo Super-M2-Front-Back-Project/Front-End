@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import SearchBarProps from "@/Components/Search";
+import SearchBar from "../Search";
 import "./style.css";
 
-const Header: React.FC<{ title: string }> = ({ title }) => {
+const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="left-container">

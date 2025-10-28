@@ -5,19 +5,21 @@ import "./style.css";
 import ICON_MAP from "@/lib/icons";
 import Image from "next/image";
 
-interface BoutonProps {
-  label: string; // le texte du bouton
+interface ButtonProps {
+  label: string; // le texte du Button
   onClick?: () => void; // fonction à exécuter au clic
-  type?: "button" | "submit" | "reset"; // type de bouton (optionnel)
-  disabled?: boolean; // pour désactiver le bouton (optionnel)
+  type?: "button" | "submit" | "reset"; // type de Button (optionnel)
+  disabled?: boolean; // pour désactiver le Button (optionnel)
+  secondary?: boolean; // pour un style secondaire (optionnel)
   iconName?: string;
 }
 
-const Bouton: React.FC<BoutonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
   type = "button",
   disabled = false,
+  secondary = false,
   iconName,
 }) => {
   const [clicked, setClicked] = useState(false);
@@ -34,6 +36,7 @@ const Bouton: React.FC<BoutonProps> = ({
       onClick={handleClick}
       disabled={disabled}
       className={`bouton ${clicked ? "clicked" : ""}`}
+      style={secondary ? { backgroundColor: "var(--secondary)" } : undefined}
     >
       {label}
       {iconName && ICON_MAP[iconName]?.src ? (
@@ -49,4 +52,4 @@ const Bouton: React.FC<BoutonProps> = ({
   );
 };
 
-export default Bouton;
+export default Button;

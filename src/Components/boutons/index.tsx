@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import "./style.css";
-import toast, { Toaster } from "react-hot-toast";
 import ICON_MAP from "@/lib/icons";
+import Image from "next/image";
 
 interface BoutonProps {
   label: string; // le texte du bouton
@@ -37,7 +37,9 @@ const Bouton: React.FC<BoutonProps> = ({
     >
       {label}
       {iconName && ICON_MAP[iconName]?.src ? (
-        <img
+        <Image
+          width={24}
+          height={24}
           className="icon"
           src={ICON_MAP[iconName].src}
           alt={ICON_MAP[iconName].alt || iconName}

@@ -1,0 +1,32 @@
+.container {
+  width: 30%;
+}
+
+.thumbnail-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.thumbnail {
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.product-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.product-price {
+  font-family: "Boldet";
+  font-size: 32px;
+  color: var(--secondary);
+}

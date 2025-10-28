@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import SearchBar from "../search";
+import SearchBar from "../Search";
 import "./style.css";
 
 const Header: React.FC = () => {

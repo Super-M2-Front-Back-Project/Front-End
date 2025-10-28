@@ -11,6 +11,7 @@ import { EmblaCarousel } from "@/Components/EmblaCarousel";
 import Login from "./auth/login/page";
 import SignUp from "./auth/sign-up/page";
 import Footer from "@/Components/Footer";
+import ButtonProps from "@/Components/AddToCartButton";
 // import Login from "./auth/login"; // Removed because module does not exist
 import { useState } from "react";
 export default function Home() {
@@ -23,29 +24,16 @@ export default function Home() {
   return (
     <div className="page-container">
       <Toaster />
-      <Header title="Bloop" />
-      <InputField
-        label="Adresse e-mail"
-        id="email"
-        type="email"
-        value={email}
-        onChange={handleChange}
-        placeholder="Entrez votre email"
-        required
-      />
-      <ProductCard
-        title="Produit 1"
-        description="Description du produit 1"
-        price={29.99}
-        imageUrl="https://img.over-blog-kiwi.com/1/46/83/86/20200325/ob_7f420b_lecture-scenario.png"
-        onClick={() => toast("Produit 1 ajouté au panier")}
-      />
-      <Bouton
-        label="Ajouter au panier"
-        iconName="add-cart"
-        onClick={() => toast("Produit 1 ajouté au panier")}
-      />
-      <EmblaCarousel />
-    </div>
-  );
-}
+<Header title="Bloop" />
+<InputField label="Email" id="email" type="email" value={email} onChange={handleChange} placeholder="Entrez votre email" required />
+<InputField label="nom" id="nom" type="text" value={email} onChange={handleChange} placeholder="Entrez votre nom" required />
+<InputField label="Prénom" id="prenom" type="text" value={email} onChange={handleChange} placeholder="Entrez votre prénom" required />
+<InputField label="password" id="password" type="password" value={email} onChange={handleChange} placeholder="Entrez votre password" required />
+<ProductCard title="Produit 1" description="Description du produit 1" price={29.99} imageUrl="https://img.over-blog-kiwi.com/1/46/83/86/20200325/ob_7f420b_lecture-scenario.png" onClick={() => toast('Produit 1 ajouté au panier')} />
+<EmblaCarousel />
+<Login />
+<SignUp />
+<Footer />
+<ButtonProps>Ajouter au panier</ButtonProps>
+</div>
+);

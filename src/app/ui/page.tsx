@@ -1,6 +1,7 @@
 'use client';
 import React from "react";
 import Select from "@/Components/Select";
+import Checkbox from "@/Components/Checkbox";
 const Page = () => {
   const [selectedOption, setSelectedOption] = React.useState<string>("");
   return (
@@ -23,7 +24,9 @@ const Page = () => {
 
       {/* Pour afficher la valeur choisie */}
       <p>Option choisie : {selectedOption}</p>
+      <Checkbox label="Accepter les termes et conditions"/>
     </div>
+
   );
 };
 

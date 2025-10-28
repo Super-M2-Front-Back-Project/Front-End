@@ -10,7 +10,6 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
 }
-<p>bbrr</p>
 const Button: React.FC<ButtonProps> = ({ children, onClick, disabled = false, className = '', type = 'button' }) => {
   return (
     <button

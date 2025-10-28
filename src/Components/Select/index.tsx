@@ -1,24 +1,29 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 
-// On définit ici les propriétés que le composant accepte
-interface SelectProps {
-  label?: string; // facultatif
-  options: string[]; // liste des options
-  value: string; // valeur sélectionnée
-  onChange: (value: string) => void; // fonction appelée lors d’un changement
+interface Option {
+  value: string;
+  label: string;
 }
 
-// On utilise React.FC pour dire que Select est un composant fonctionnel avec ces props
-const Select: React.FC<SelectProps> = ({ label, options, value, onChange }) => {
+interface SelectProps {
+  label?: string;
+  options: Option[];
+  value: string;
+  placeholder?: string;
+  onChange: (value: string) => void;
+}
+
+const Select: React.FC<SelectProps> = ({ label, options, value, onChange, placeholder }) => {
   return (
     <div>
       {label && <label>{label}</label>}
       <select value={value} onChange={(e) => onChange(e.target.value)}>
-        <option value="">-- Sélectionnez une option --</option>
+        {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

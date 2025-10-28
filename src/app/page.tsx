@@ -1,6 +1,8 @@
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
+import Select from "@/Components/Select";
+import React from "react";
 
 export default function Home() {
   const products = [
@@ -85,11 +87,30 @@ export default function Home() {
     },
   ];
 
+  const [selectedOption, setSelectedOption] = React.useState<string>("");
+
   return (
     <div className="page-container">
       <Header />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
+        <Select
+        label="Option"
+        options={[
+          { value: "Option1", label: "Option1" },
+          { value: "Option2", label: "Option2" },
+          { value: "Option3", label: "Option3" },
+        ]}
+        value={selectedOption}
+        placeholder="Choisissez une Option"
+        onChange={(value) => {
+          console.log("Option sélectionnée :", value);
+          setSelectedOption(value);
+        }}
+      />
+
+      {/* Pour afficher la valeur choisie */}
+      <p>Option choisie : {selectedOption}</p>
     </div>
   );
 }

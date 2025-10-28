@@ -11,6 +11,7 @@ import { EmblaCarousel } from "@/Components/EmblaCarousel";
 import Login from "./auth/login/page";
 import SignUp from "./auth/sign-up/page";
 import Footer from "@/Components/Footer";
+import ButtonProps from "@/Components/AddToCartButton";
 // import Login from "./auth/login"; // Removed because module does not exist
 import { useState } from "react";
 export default function Home() {
@@ -33,6 +34,7 @@ export default function Home() {
           <Login />
           <SignUp />
           <Footer />
+          <ButtonProps>Ajouter au panier</ButtonProps>
     </div>
   );
 }

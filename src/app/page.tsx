@@ -10,7 +10,8 @@ import Login from "./auth/login/page";
 import SignUp from "./auth/sign-up/page";
 import Footer from "@/Components/Footer";
 import ButtonProps from "@/Components/AddToCartButton";
-// import Login from "./auth/login"; // Removed because module does not exist
+import OrderList from "@/Components/OrderList";
+import ProfileCard from "@/Components/ProfileCard";
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -33,5 +34,8 @@ export default function Home() {
 <SignUp />
 <Footer />
 <ButtonProps>Ajouter au panier</ButtonProps>
+<OrderList></OrderList>
+<ProfileCard profile={null}></ProfileCard>
 </div>
 );
+}

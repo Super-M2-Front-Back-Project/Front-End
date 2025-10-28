@@ -11,7 +11,7 @@ const Header: React.FC = () => {
         <Link href={"/"}>
           <img className="header-logo" src="/logo.svg" alt="Logo de BLOOP" />
         </Link>
-        <SearchBar
+        <SearchBarProps
           onSearch={(query: string) => {
             /* handle search here */
           }}

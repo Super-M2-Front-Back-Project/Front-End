@@ -1,6 +1,9 @@
+
+"use client"; // 🔹 Obligatoire pour activer les hooks côté client
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
+import React from "react";
 
 export default function Home() {
   const products = [
@@ -84,6 +87,7 @@ export default function Home() {
       caption: "Découvrez notre sélection de meubles",
     },
   ];
+
 
   return (
     <div className="page-container">

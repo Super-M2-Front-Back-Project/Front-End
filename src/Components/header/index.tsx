@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import SearchBar from "../search";
+import SearchBarProps from "@/Components/Search";
 import "./style.css";
 
 const Header: React.FC<{ title: string }> = ({ title }) => {
@@ -11,7 +11,7 @@ const Header: React.FC<{ title: string }> = ({ title }) => {
         <Link href={"/"}>
           <img className="header-logo" src="/logo.svg" alt="Logo de BLOOP" />
         </Link>
-        <SearchBar
+        <SearchBarProps
           onSearch={(query: string) => {
             /* handle search here */
           }}

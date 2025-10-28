@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
 import Header from "@/Components/header";
 import Bouton from "@/Components/boutons";
 import toast, { Toaster } from "react-hot-toast";
 import InputField from "@/Components/InputField";
-import ProductCard from "@/Components/Card";
+import ProductCard from "@/Components/ProductCard";
 import { useState } from "react";
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -30,14 +28,14 @@ export default function Home() {
       />
       <ProductCard
         title="Produit 1"
-        description="Description du produit 1"
+        categories={["Catégorie A"]}
         price={29.99}
-        imageUrl="https://img.over-blog-kiwi.com/1/46/83/86/20200325/ob_7f420b_lecture-scenario.png"
-        onClick={() => toast("Produit 1 ajouté au panier")}
+        imageUrl="/product.png"
       />
+
       <Bouton
         label="Ajouter au panier"
-        iconName="add-cart"
+        iconName="addCart"
         onClick={() => toast("Produit 1 ajouté au panier")}
       />
     </div>

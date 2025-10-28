@@ -1,10 +1,12 @@
 export const ICON_MAP: Record<string, { src: string; alt: string }> = {
-  "add-cart": {
-    src: "/assets/add-shopping-cart 1.svg",
+  addCart: {
+    src: "/assets/icons/basket-add.svg",
     alt: "Ajouter au panier",
   },
-  search: { src: "/assets/search.svg", alt: "Rechercher" },
-  like: { src: "/assets/heart.svg", alt: "J'aime" },
+  search: { src: "/assets/icons/search.svg", alt: "Rechercher" },
+  like: { src: "/assets/icons/heart.svg", alt: "J'aime" },
+  user: { src: "/assets/icons/user.svg", alt: "Utilisateur" },
+  eye: { src: "/assets/icons/eye.svg", alt: "Voir" },
 };
 
 export function getIconSrc(name?: string): string | undefined {

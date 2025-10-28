@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import SearchBar from "../Search";
+import Image from "next/image";
 import "./style.css";
 
 const Header: React.FC = () => {
@@ -11,11 +12,7 @@ const Header: React.FC = () => {
         <Link href={"/"}>
           <img className="header-logo" src="/logo.svg" alt="Logo de BLOOP" />
         </Link>
-        <SearchBarProps
-          onSearch={(query: string) => {
-            /* handle search here */
-          }}
-        />
+        <SearchBar onSearch={(query: string) => {}} />
       </div>
       <nav className="right-container">
         <ul>
@@ -27,7 +24,9 @@ const Header: React.FC = () => {
           </li>
           <li>
             <Link href="/coup-de-coeur">
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/assets/icons/heart-filled.svg"
                 alt="Coup de cœur"
                 className="icon-btn"
@@ -37,7 +36,9 @@ const Header: React.FC = () => {
 
           <li>
             <Link href="/cart">
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/assets/icons/basket.svg"
                 alt="Panier"
                 className="icon-btn"
@@ -47,7 +48,9 @@ const Header: React.FC = () => {
 
           <li>
             <Link href="/user">
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/assets/icons/user.svg"
                 alt="User Icon"
                 className="icon-btn"

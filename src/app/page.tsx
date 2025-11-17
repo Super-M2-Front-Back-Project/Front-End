@@ -7,8 +7,11 @@ import CountryStat from "@/Components/Modal";
 import SellerDashboard from "@/Components/SellerDashboard"
 import OrderCard from "@/Components/OrderCard";
 import CategoryFilterList from "@/Components/CategoryFilterList.tsx";
-import CustomerReview from "@/Components/CustomerReview.tsx";
+import CustomerReview from "@/Components/CustomerReview";
 import DoubleRangeSlider from "@/Components/DoubleRangeSlider/DoubleRangeSlider";
+import CustomerReviewavis from "@/Components/CustomerReviewavis";
+import AuthProfileForm from "@/Components/auth";
+
 import React from "react";
 
 export default function Home() {
@@ -107,6 +110,10 @@ export default function Home() {
       <CategoryFilterList />
       <CustomerReview></CustomerReview>
       <DoubleRangeSlider min={400} max={500}></DoubleRangeSlider>
+      <CustomerReviewavis reviews={[]}></CustomerReviewavis>
+      <AuthProfileForm mode="login" onSubmit={undefined}></AuthProfileForm>
+      <AuthProfileForm mode="register" onSubmit={undefined}></AuthProfileForm>
+      <AuthProfileForm mode="profile" onSubmit={undefined}></AuthProfileForm> 
     </div>
          
   );

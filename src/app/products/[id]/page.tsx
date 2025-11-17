@@ -1,6 +1,6 @@
 // app/products/[id]/page.tsx
-import { ProductService } from "@/lib/services/product.service";
-import type { Product } from "@/lib/services/product.service";
+import { ProductService } from "@/services/product.service";
+import type { Product } from "@/services/product.service";
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;

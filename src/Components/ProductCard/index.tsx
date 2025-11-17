@@ -5,6 +5,7 @@ import Image from "next/image";
 import Bouton from "../Button";
 import "./style.css";
 import Link from "next/link";
+import IconButton from "../IconButton";
 
 interface ProductCardProps {
   product: {
@@ -31,11 +32,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {categories.map((cat, i) => (i === 0 ? cat : `${cat}`)).join(", ")}
         </p>
         <div className="product-actions">
-          <Bouton
-            label="Voir"
-            onClick={() => console.log("Produit ajouté au panier")}
-            iconName="eye"
-          />
+          <div className="buttons-group">
+            <Bouton
+              label="Voir"
+              onClick={() => console.log("Produit ajouté au panier")}
+              iconName="eye"
+            />
+            <div onClick={(e) => e.stopPropagation()}>
+              <IconButton variant="like" productId={id} />
+            </div>
+          </div>
           <p className="product-price">{price.toFixed(2)} €</p>
         </div>
       </div>

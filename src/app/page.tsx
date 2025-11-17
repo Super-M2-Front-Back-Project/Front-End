@@ -1,7 +1,7 @@
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
-import { ProductService } from "@/lib/services/product.service";
+import { ProductService } from "@/services/product.service";
 
 export default async function Home() {
   // fetch depuis le back

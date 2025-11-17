@@ -34,6 +34,12 @@
   margin-top: 12px;
 }
 
+.buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .product-price {
   font-family: "Boldet";
   font-size: 32px;

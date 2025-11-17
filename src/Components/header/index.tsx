@@ -1,20 +1,20 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import SearchBar from "../Search";
+import SearchBarProps from "@/Components/Search";
 import "./style.css";
 
-const Header: React.FC = () => {
+const Header: React.FC<{ title: string }> = ({ title }) => {
   return (
     <header className="header">
       <div className="left-container">
         <Link href={"/"}>
           <img className="header-logo" src="/logo.svg" alt="Logo de BLOOP" />
         </Link>
-        <SearchBar
-          onSearch={(query: string) => {
-            /* handle search here */
-          }}
+        <SearchBarProps
+          placeholder="Rechercher des produits..."
+          data={[]}
+          className="header-search-bar"
         />
       </div>
       <nav className="right-container">
@@ -54,6 +54,7 @@ const Header: React.FC = () => {
               />
             </Link>
           </li>
+          <p></p>
         </ul>
       </nav>
     </header>

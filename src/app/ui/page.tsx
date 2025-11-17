@@ -2,6 +2,7 @@
 import React from "react";
 import Select from "@/Components/Select";
 import Checkbox from "@/Components/Checkbox";
+import SearchBar from "@/Components/Search";
 const Page = () => {
   const [selectedOption, setSelectedOption] = React.useState<string>("");
   return (
@@ -26,6 +27,8 @@ const Page = () => {
       <p>Option choisie : {selectedOption}</p>
       <Checkbox label="Accepter les termes et conditions"/>
     </div>
+
+    
 
   );
 };

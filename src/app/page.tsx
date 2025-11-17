@@ -3,6 +3,12 @@
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
+import CountryStat from "@/Components/Modal";
+import SellerDashboard from "@/Components/SellerDashboard"
+import OrderCard from "@/Components/OrderCard";
+import CategoryFilterList from "@/Components/CategoryFilterList.tsx";
+import CustomerReview from "@/Components/CustomerReview.tsx";
+import DoubleRangeSlider from "@/Components/DoubleRangeSlider/DoubleRangeSlider";
 import React from "react";
 
 export default function Home() {
@@ -91,9 +97,17 @@ export default function Home() {
 
   return (
     <div className="page-container">
-      <Header />
+      <Header title={""} />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
+      <CountryStat ></CountryStat>
+      <SellerDashboard children={undefined}></SellerDashboard>
+      <OrderCard orderId={""} customerName={""} status={"Pending"} total={0} date={""}></OrderCard>
+      <CategoryFilterList data={[]}></CategoryFilterList>
+      <CategoryFilterList />
+      <CustomerReview></CustomerReview>
+      <DoubleRangeSlider min={400} max={500}></DoubleRangeSlider>
     </div>
+         
   );
 }

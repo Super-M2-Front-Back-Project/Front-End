@@ -6,13 +6,20 @@ import { ProductService, type Product } from "@/services/product.service";
 import ProductCardHorizontal from "../ProductCardHorizontal";
 import "./style.css";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl?: string;
+}
+
 interface SearchBarProps {
   placeholder?: string;
   onSearch?: (query: string) => void;
   className?: string;
 }
 
-export default function SearchBar({
+export default function SearchBarWithPanel({
   placeholder = "Rechercher...",
   onSearch,
   className = "",

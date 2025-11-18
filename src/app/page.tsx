@@ -20,6 +20,7 @@ export default async function Home() {
     { src: "/product.png", alt: "Produit 4", caption: "Découvrez nos meubles" },
   ];
 
+
   return (
     <div className={styles["page-container"]}>
       <Header />
@@ -32,5 +33,6 @@ export default async function Home() {
       />
       <Footer />
     </div>
+         
   );
 }

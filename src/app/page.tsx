@@ -11,6 +11,8 @@ import CustomerReview from "@/Components/CustomerReview";
 import DoubleRangeSlider from "@/Components/DoubleRangeSlider/DoubleRangeSlider";
 import CustomerReviewavis from "@/Components/CustomerReviewavis";
 import AuthProfileForm from "@/Components/auth";
+import NestedList from "@/Components/list";
+import Description from "@/Components/Description";
 
 import React from "react";
 
@@ -114,6 +116,17 @@ export default function Home() {
       <AuthProfileForm mode="login" onSubmit={undefined}></AuthProfileForm>
       <AuthProfileForm mode="register" onSubmit={undefined}></AuthProfileForm>
       <AuthProfileForm mode="profile" onSubmit={undefined}></AuthProfileForm> 
+      <NestedList 
+        populaire={[]} 
+        nouveaute={[]} 
+        coupDeCoeur={[]} 
+      />
+<Description
+  title="Meuble Scandinave"
+  description="Élégant meuble de rangement en bois chaud avec piètement tubulaire chromé. 3 niches verticales + porte-revues en façade pour livres, vinyles ou magazines. Format compact, idéal pour salon, entrée ou bureau. Finition soignée, look scandinave/mid-century qui réchauffe la pièce."
+  price="432€"
+/>
+  
     </div>
          
   );

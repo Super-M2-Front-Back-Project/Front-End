@@ -11,8 +11,6 @@ import styles from "./page.module.css";
 export default async function Home() {
   const products = await ProductService.getAll();
 
-  console.log("Products in Home page:", products);
-
   const slides = [
     { src: "/product.png", alt: "Produit 1", caption: "Découvrez nos meubles" },
     { src: "/product.png", alt: "Produit 2", caption: "Découvrez nos meubles" },
@@ -35,6 +33,5 @@ export default async function Home() {
       </div>
       <Footer />
     </div>
-         
   );
 }

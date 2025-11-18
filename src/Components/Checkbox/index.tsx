@@ -1,15 +1,21 @@
+import React from "react";
+import "./style.css";
+
 interface IProps {
     label: string;
 }
 
-const Index = ({ label }:IProps) => {
+const Checkbox = ({ label }:IProps) => {
   return (
     <div>
       <label htmlFor="">
-        <input type="checkbox" />
+        <input 
+          type="checkbox"
+          className="checkbox"
+        />
         {label}
       </label>
     </div>
   );
 };
-export default Index;
+export default Checkbox;

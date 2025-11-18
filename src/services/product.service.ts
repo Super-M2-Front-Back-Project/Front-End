@@ -44,7 +44,7 @@ const MOCK_PRODUCTS: Product[] = [
   },
 ];
 
-const USE_MOCK_DATA = true; // Mettre à false pour réactiver l'API
+const USE_MOCK_DATA = false; // Mettre à false pour réactiver l'API
 
 export const ProductService = {
   async getById(id: string): Promise<Product> {

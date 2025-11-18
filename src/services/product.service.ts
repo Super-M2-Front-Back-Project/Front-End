@@ -1,10 +1,10 @@
 // en attendant que l'API fournisse des données au format souhaité
 export interface ProductFromAPI {
   id: string;
-  nom: string;
+  name: string;
   description: string;
-  prix: number;
-  categorie: string | null;
+  price: number;
+  category: string | null;
   image_url: string;
 }
 
@@ -12,7 +12,7 @@ export interface Product {
   id: string;
   name: string;
   category: string[];
-  imageUrl: string;
+  image_url: string;
   price: number;
 }
 
@@ -22,7 +22,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: "1",
     name: "Canapé Scandinave 3 Places",
     category: ["Meuble", "Salon"],
-    imageUrl:
+    image_url:
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80",
     price: 599.99,
   },
@@ -30,7 +30,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: "2",
     name: "Le Petit Prince - Antoine de Saint-Exupéry",
     category: ["Livre", "Fiction"],
-    imageUrl:
+    image_url:
       "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&q=80",
     price: 12.5,
   },
@@ -38,7 +38,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: "3",
     name: "Bureau en Bois Massif",
     category: ["Meuble", "Bureau"],
-    imageUrl:
+    image_url:
       "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80",
     price: 349.0,
   },
@@ -58,6 +58,8 @@ export const ProductService = {
       return product;
     }
 
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
+
     // Mode API
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
@@ -75,10 +77,10 @@ export const ProductService = {
 
     const product: Product = {
       id: p.id,
-      name: p.nom,
-      category: p.categorie ? [p.categorie] : [],
-      imageUrl: p.image_url,
-      price: p.prix,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
     };
 
     return product;
@@ -87,9 +89,12 @@ export const ProductService = {
   async getAll(): Promise<Product[]> {
     // Mode mock
     if (USE_MOCK_DATA) {
+      console.log("Fetching products from mock data...");
       await new Promise((resolve) => setTimeout(resolve, 300)); // Simuler un délai réseau
       return MOCK_PRODUCTS;
     }
+    
+    console.log("Fetching products from API...");
 
     // Mode API
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
@@ -104,11 +109,13 @@ export const ProductService = {
 
     const products: Product[] = data.products.map((p) => ({
       id: p.id,
-      name: p.nom,
-      category: p.categorie ? [p.categorie] : [],
-      imageUrl: p.image_url,
-      price: p.prix,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
     }));
+
+    console.log("Fetched products from API:", products);
 
     return products;
   },
@@ -148,10 +155,10 @@ export const ProductService = {
 
     const products: Product[] = data.products.map((p) => ({
       id: p.id,
-      name: p.nom,
-      category: p.categorie ? [p.categorie] : [],
-      imageUrl: p.image_url,
-      price: p.prix,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
     }));
 
     return products;

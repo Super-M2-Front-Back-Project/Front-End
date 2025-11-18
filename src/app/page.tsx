@@ -1,132 +1,37 @@
+"use client";
 
-"use client"; // 🔹 Obligatoire pour activer les hooks côté client
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
-import CountryStat from "@/Components/Modal";
-import SellerDashboard from "@/Components/SellerDashboard"
-import OrderCard from "@/Components/OrderCard";
-import CategoryFilterList from "@/Components/CategoryFilterList.tsx";
-import CustomerReview from "@/Components/CustomerReview";
-import DoubleRangeSlider from "@/Components/DoubleRangeSlider/DoubleRangeSlider";
-import CustomerReviewavis from "@/Components/CustomerReviewavis";
-import AuthProfileForm from "@/Components/auth";
-import NestedList from "@/Components/list";
-import Description from "@/Components/Description";
+import { ProductService } from "@/services/product.service";
+import Button from "@/Components/Button";
+import Footer from "@/Components/Footer";
+import styles from "./page.module.css";
 
-import React from "react";
+export default async function Home() {
+  const products = await ProductService.getAll();
 
-export default function Home() {
-  const products = [
-    {
-      id: 1,
-      name: "Chaise Scandinave",
-      category: ["Meubles", "Chaises"],
-      imageUrl: "/product.png",
-      price: 79.99,
-    },
-    {
-      id: 2,
-      name: "Table Basse Moderne",
-      category: ["Meubles", "Tables"],
-      imageUrl: "/product.png",
-      price: 129.99,
-    },
-    {
-      id: 3,
-      name: "Canapé Confortable",
-      category: ["Meubles", "Canapés"],
-      imageUrl: "/product.png",
-      price: 299.99,
-    },
-    {
-      id: 4,
-      name: "Lampe de Table Élégante",
-      category: ["Éclairage", "Lampes"],
-      imageUrl: "/product.png",
-      price: 49.99,
-    },
-    {
-      id: 5,
-      name: "Tapis Doux",
-      category: ["Décoration", "Tapis"],
-      imageUrl: "/product.png",
-      price: 89.99,
-    },
-    {
-      id: 6,
-      name: "Bibliothèque en Bois",
-      category: ["Meubles", "Rangements"],
-      imageUrl: "/product.png",
-      price: 199.99,
-    },
-    {
-      id: 7,
-      name: "Fauteuil Relaxant",
-      category: ["Meubles", "Fauteuils"],
-      imageUrl: "/product.png",
-      price: 149.99,
-    },
-    {
-      id: 8,
-      name: "Table à Manger Extensible",
-      category: ["Meubles", "Tables"],
-      imageUrl: "/product.png",
-      price: 399.99,
-    },
-  ];
+  console.log("Products in Home page:", products);
 
   const slides = [
-    {
-      src: "/product.png",
-      alt: "Produit 1",
-      caption: "Découvrez notre sélection de meubles",
-    },
-    {
-      src: "/product.png",
-      alt: "Produit 2",
-      caption: "Découvrez notre sélection de meubles",
-    },
-    {
-      src: "/product.png",
-      alt: "Produit 3",
-      caption: "Découvrez notre sélection de meubles",
-    },
-    {
-      src: "/product.png",
-      alt: "Produit 4",
-      caption: "Découvrez notre sélection de meubles",
-    },
+    { src: "/product.png", alt: "Produit 1", caption: "Découvrez nos meubles" },
+    { src: "/product.png", alt: "Produit 2", caption: "Découvrez nos meubles" },
+    { src: "/product.png", alt: "Produit 3", caption: "Découvrez nos meubles" },
+    { src: "/product.png", alt: "Produit 4", caption: "Découvrez nos meubles" },
   ];
 
 
   return (
-    <div className="page-container">
-      <Header title={""} />
+    <div className={styles["page-container"]}>
+      <Header />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
-      <CountryStat ></CountryStat>
-      <SellerDashboard children={undefined}></SellerDashboard>
-      <OrderCard orderId={""} customerName={""} status={"Pending"} total={0} date={""}></OrderCard>
-      <CategoryFilterList data={[]}></CategoryFilterList>
-      <CategoryFilterList />
-      <CustomerReview></CustomerReview>
-      <DoubleRangeSlider min={400} max={500}></DoubleRangeSlider>
-      <CustomerReviewavis reviews={[]}></CustomerReviewavis>
-      <AuthProfileForm mode="login" onSubmit={undefined}></AuthProfileForm>
-      <AuthProfileForm mode="register" onSubmit={undefined}></AuthProfileForm>
-      <AuthProfileForm mode="profile" onSubmit={undefined}></AuthProfileForm> 
-      <NestedList 
-        populaire={[]} 
-        nouveaute={[]} 
-        coupDeCoeur={[]} 
+      <Button
+        label="Voir l’intégralité du catalogue"
+        onClick={() => alert("Catalogue complet")}
+        iconName="eye"
       />
-<Description
-  title="Meuble Scandinave"
-  description="Élégant meuble de rangement en bois chaud avec piètement tubulaire chromé. 3 niches verticales + porte-revues en façade pour livres, vinyles ou magazines. Format compact, idéal pour salon, entrée ou bureau. Finition soignée, look scandinave/mid-century qui réchauffe la pièce."
-  price="432€"
-/>
-  
+      <Footer />
     </div>
          
   );

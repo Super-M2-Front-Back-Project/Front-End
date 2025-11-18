@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { ProductService, type Product } from "@/services/product.service";
+import ProductCardHorizontal from "../ProductCardHorizontal";
 import "./style.css";
 
 interface Product {
@@ -12,103 +15,108 @@ interface Product {
 
 interface SearchBarProps {
   placeholder?: string;
-  data: Product[]; // données sur lesquelles rechercher
+  onSearch?: (query: string) => void;
   className?: string;
 }
 
 export default function SearchBarWithPanel({
   placeholder = "Rechercher...",
-  data,
+  onSearch,
   className = "",
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // Filtrer les produits en fonction de la saisie
-  const handleChange = (value: string) => {
-    setQuery(value);
+  // Fermer le dropdown si on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
 
-    if (value.trim() === "") {
-      setResults([]);
-    } else {
-      const filtered = data.filter((product) =>
-        product.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setResults(filtered);
-    }
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Recherche en temps réel avec debounce
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (query.trim().length > 0) {
+        setIsLoading(true);
+        try {
+          const searchResults = await ProductService.search(query);
+          setResults(searchResults);
+          setShowDropdown(true);
+        } catch (error) {
+          console.error("Erreur de recherche:", error);
+          setResults([]);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setResults([]);
+        setShowDropdown(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setResults(
-      data.filter((product) =>
-        product.name.toLowerCase().includes(query.toLowerCase())
-      )
-    );
+    if (query.trim()) {
+      onSearch?.(query.trim());
+      setShowDropdown(false);
+    }
+  };
+
+  const handleProductClick = (productId: string) => {
+    router.push(`/products/${productId}`);
+    setShowDropdown(false);
+    setQuery("");
   };
 
   return (
-    <div className={`search-bar-container ${className}`} style={{ position: "relative" }}>
+    <div ref={searchRef} className={`search-container ${className}`}>
       <form onSubmit={handleSubmit} className="search-bar">
         <input
           type="text"
           value={query}
-          onChange={(e) => handleChange(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
           className="search-input"
+          onFocus={() => query.trim() && setShowDropdown(true)}
         />
         <button type="submit" className="search-button">
           <img src="/assets/icons/search.svg" alt="Rechercher" />
         </button>
       </form>
 
-      {/* Panel dynamique en dessous */}
-      {results.length > 0 && (
-        <div
-          className="search-panel"
-          style={{
-            position: "absolute",
-            top: "40px",
-            left: 0,
-            right: 0,
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            zIndex: 10,
-            maxHeight: "300px",
-            overflowY: "auto",
-          }}
-        >
-          {results.map((product) => (
-            <div
-              key={product.id}
-              className="search-panel-item"
-              style={{
-                padding: "10px",
-                borderBottom: "1px solid #eee",
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setQuery(product.name);
-                setResults([]);
-              }}
-            >
-              {product.imageUrl && (
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  style={{ width: "40px", height: "40px", marginRight: "10px" }}
+      {showDropdown && (
+        <div className="search-dropdown">
+          {isLoading ? (
+            <div className="search-dropdown-loading">Recherche...</div>
+          ) : results.length > 0 ? (
+            <div className="search-results-list">
+              {results.map((product) => (
+                <ProductCardHorizontal
+                  key={product.id}
+                  product={product}
+                  onClick={() => handleProductClick(product.id)}
                 />
-              )}
-              <div>
-                <strong>{product.name}</strong>
-                <p style={{ margin: 0, fontSize: "0.9rem" }}>{product.price} €</p>
-              </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="search-dropdown-empty">Aucun résultat trouvé</div>
+          )}
         </div>
       )}
     </div>

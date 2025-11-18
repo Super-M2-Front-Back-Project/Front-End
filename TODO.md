@@ -1,1 +1,0 @@
-- [ ] Modify ImageSlider component to use plain HTML <img> tag instead of Next.js Image component

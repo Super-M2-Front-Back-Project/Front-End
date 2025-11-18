@@ -1,0 +1,10 @@
+.footer {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 32px;
+    border-radius: 24px;
+}
+
+.footer .container a {
+    color: var(--white);
+}

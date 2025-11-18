@@ -6,12 +6,13 @@ import { ProductService, type Product } from "@/services/product.service";
 import ProductCardHorizontal from "../ProductCardHorizontal";
 import "./style.css";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl?: string;
-}
+// interface Product {
+//   id: string;
+//   name: string;
+//   price: number;
+//   image_url?: string;
+//   category?: string[];
+// }
 
 interface SearchBarProps {
   placeholder?: string;

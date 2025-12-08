@@ -11,25 +11,25 @@ interface ProductCardProps {
   product: {
     id: string;
     name: string;
-    category: string[];
-    imageUrl: string;
+    category_id: string | null;
+    image_url: string;
     price: number;
   };
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  product: { id: id, name: name, category: categories, imageUrl, price },
+  product: { id, name, category_id, image_url, price },
 }) => {
-  console.log("ProductCard props:", { id, name, categories, imageUrl, price });
+  console.log("ProductCard props:", { id, name, category_id, image_url, price });
   return (
     <Link className="container" href={`/products/${id}`}>
       <div className="thumbnail-container">
-        <Image src={imageUrl} alt={name} fill className="thumbnail" />
+        <Image src={image_url} alt={name} fill className="thumbnail" />
       </div>
       <div className="product-info">
         <p className="product-title">{name}</p>
         <p className="product-category">
-          {categories.map((cat, i) => (i === 0 ? cat : `${cat}`)).join(", ")}
+          {category_id || "Non catégorisé"}
         </p>
         <div className="product-actions">
           <div className="buttons-group">

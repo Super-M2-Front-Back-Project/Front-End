@@ -10,8 +10,8 @@ interface ProductCardHorizontalProps {
   product: {
     id: string;
     name: string;
-    category: string[];
-    imageUrl: string;
+    category_id: string | null;
+    image_url: string;
     price: number;
   };
   onClick: () => void;
@@ -25,7 +25,7 @@ export default function ProductCardHorizontal({
     <div className="product-card-horizontal" onClick={onClick}>
       <div className="product-card-horizontal-image">
         <Image
-          src={product.imageUrl}
+          src={product.image_url}
           alt={product.name}
           width={96}
           height={96}
@@ -35,7 +35,7 @@ export default function ProductCardHorizontal({
       <div className="product-card-horizontal-info">
         <div className="product-card-horizontal-name">{product.name}</div>
         <div className="product-card-horizontal-category">
-          {product.category.join(", ")}
+          {product.category_id || "Non catégorisé"}
         </div>
       </div>
       <div className="product-card-horizontal-actions">

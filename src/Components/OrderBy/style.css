@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Boldet";
+  src: url("/assets/fonts/Boldet.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.order-by-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+.order-by-container .order-by-label {
+    font-size: 48px;
+    color: #19121D;
+    font-family: "Boldet", sans-serif;
+}
+
+.order-by-container .order-by-select {
+    font-size: 48px;
+    border: none;
+    background-color: transparent;
+    color: var(--primary);
+    font-family: "Boldet", sans-serif;
+
+    appearance: none;       /* supprime le style natif de la fleche */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: url("/arrow-down.svg") no-repeat right center;
+    background-size: 24px;  /* taille de ta flèche */
+    padding-right: 30px;    /* espace pour la flèche */
+}
+
+.order-by-container .order-by-select:focus {
+  outline: none;
+}
+
+.order-by-container .order-by-select option {
+  font-size: 40px;
+}

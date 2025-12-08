@@ -62,6 +62,8 @@ export const ProductService = {
       return product;
     }
 
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
+
     // Mode API
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
@@ -90,9 +92,12 @@ export const ProductService = {
   async getAll(): Promise<Product[]> {
     // Mode mock
     if (USE_MOCK_DATA) {
+      console.log("Fetching products from mock data...");
       await new Promise((resolve) => setTimeout(resolve, 300)); // Simuler un délai réseau
       return MOCK_PRODUCTS;
     }
+    
+    console.log("Fetching products from API...");
 
     // Mode API
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {

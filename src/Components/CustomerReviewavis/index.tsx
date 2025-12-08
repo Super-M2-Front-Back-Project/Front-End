@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaStar } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 export type Review = {
   id: string;
@@ -11,12 +11,11 @@ export type Review = {
 };
 
 type ReviewListProps = {
-  reviews?: Review[]; // rendu optionnel
+  reviews?: Review[];
   className?: string;
 };
 
 export default function ReviewList({ reviews, className = "" }: ReviewListProps) {
-  // Avis par défaut si aucun avis n'est fourni
   const defaultReviews: Review[] = [
     {
       id: "1",
@@ -52,13 +51,13 @@ export default function ReviewList({ reviews, className = "" }: ReviewListProps)
             {review.user}
           </h4>
 
-          {/* Étoiles */}
+          {/* ❤️ Cœurs à la place des étoiles */}
           <div className="flex items-center mt-1 mb-2">
             {Array.from({ length: 5 }).map((_, index) => (
-              <FaStar
+              <FaHeart
                 key={index}
                 size={18}
-                className={index < review.rating ? "text-yellow-400" : "text-gray-300"}
+                className={index < review.rating ? "text-red-500" : "text-gray-300"}
               />
             ))}
           </div>

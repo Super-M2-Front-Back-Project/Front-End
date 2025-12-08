@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import * as fa from "react-icons/fa";
+import RatingInput from "../RatingInput";
 
 export type Review = {
   id?: string;
@@ -25,7 +26,7 @@ export default function CustomerReview({ onSubmit, className = "" }: CustomerRev
     if (!name || !comment || rating === 0) return;
     const newReview: Review = { name, comment, rating };
     onSubmit?.(newReview);
-    // Reset form
+
     setName("");
     setComment("");
     setRating(0);
@@ -56,16 +57,22 @@ export default function CustomerReview({ onSubmit, className = "" }: CustomerRev
         required
       />
 
+      {/* ❤️ Rating with hearts */}
       <div className="flex items-center gap-2">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <fa.FaStar
-            key={star}
+        {/*
+        {[1, 2, 3, 4, 5].map((heart) => (
+          <fa.FaHeart
+            key={heart}
             size={24}
-            className={`cursor-pointer ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
-            onClick={() => setRating(star)}
+            className={`cursor-pointer ${
+              heart <= rating ? "text-red-500" : "text-gray-300"
+            }`}
+            onClick={() => setRating(heart)}
           />
         ))}
-        <span className="ml-2 text-gray-600">{rating} / 5</span>
+        */}
+
+        <RatingInput />
       </div>
 
       <button
@@ -77,3 +84,4 @@ export default function CustomerReview({ onSubmit, className = "" }: CustomerRev
     </form>
   );
 }
+

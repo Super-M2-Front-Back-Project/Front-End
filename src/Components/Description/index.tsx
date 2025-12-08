@@ -25,23 +25,8 @@ export default function Description({
   return (
     <section className={`space-y-3 ${className}`}>
       {title && <h2 className="text-2xl font-semibold">{title}</h2>}
-
-      {/* Étoiles interactives */}
-      <div className="flex space-x-1 text-yellow-500 text-xl cursor-pointer">
-        {Array.from({ length: 5 }, (_, i) => {
-          const starValue = i + 1;
-          return (
-            <span
-              key={i}
-              onClick={() => setRating(starValue)}
-              onMouseEnter={() => setHoverRating(starValue)}
-              onMouseLeave={() => setHoverRating(0)}
-            >
-              {starValue <= (hoverRating || rating) ? "★" : "☆"}
-            </span>
-          );
-        })}
-      </div>
+        
+      
 
       {/* Description et prix */}
       <p className="text-base leading-relaxed">{description}</p>

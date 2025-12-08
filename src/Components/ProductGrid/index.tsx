@@ -10,7 +10,7 @@ export function ProductGrid({
     id: string;
     name: string;
     category: string[];
-    imageUrl: string;
+    image_url: string;
     price: number;
   }>;
 }) {

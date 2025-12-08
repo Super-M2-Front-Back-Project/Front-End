@@ -11,7 +11,6 @@ interface ProductCardHorizontalProps {
     id: string;
     name: string;
     category_id: string | null;
-    image_url: string;
     price: number;
     image_url: string;
     category: string[];

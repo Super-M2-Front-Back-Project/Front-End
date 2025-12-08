@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 
@@ -13,6 +15,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   size = 24,
 }) => {
   const [isActive, setIsActive] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -32,7 +35,7 @@ const IconButton: React.FC<IconButtonProps> = ({
 
   const getIconSrc = () => {
     if (variant === "like") {
-      return isActive
+      return isActive || isHovered
         ? "/assets/icons/heart-filled.svg"
         : "/assets/icons/heart.svg";
     } else {
@@ -55,7 +58,9 @@ const IconButton: React.FC<IconButtonProps> = ({
       width={size}
       height={size}
       onClick={handleClick}
-      style={{ cursor: "pointer" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ cursor: "pointer", transition: "transform 0.2s" }}
     />
   );
 };

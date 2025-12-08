@@ -9,6 +9,16 @@ export interface Product {
   quantity: number;
   is_active: boolean;
   seller_id?: string;
+  category?: {
+    id: string;
+    name: string;
+    description?: string;
+  };
+  seller?: {
+    id: string;
+    name: string;
+    description?: string;
+  };
 }
 
 // Données de mock pendant que l'API est désactivée

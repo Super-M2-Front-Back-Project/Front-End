@@ -42,7 +42,7 @@ export default function SearchBar({
   // Recherche en temps réel avec debounce
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
-      if (query.trim().length > 0) {
+      if (query.trim().length >= 2) {
         setIsLoading(true);
         try {
           const searchResults = await ProductService.search(query);

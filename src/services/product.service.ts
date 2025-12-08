@@ -157,6 +157,6 @@ export const ProductService = {
     }
 
     const data = await res.json();
-    return Array.isArray(data) ? data : data.products || [];
+    return Array.isArray(data) ? data : data.results || [];
   },
 };

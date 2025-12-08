@@ -1,10 +1,3 @@
-@font-face {
-  font-family: "Boldet";
-  src: url("/assets/fonts/Boldet.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 .order-by-container {
     display: flex;
     flex-wrap: nowrap;

@@ -13,7 +13,9 @@
 @font-face {
   font-family: "Boldet";
   src: url("/assets/fonts/Boldet.otf") format("opentype");
-  font-weight: 600;
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -33,6 +35,8 @@ body {
   padding: 0;
   margin: 0;
   background-color: var(--white);
+  font-family: "JUST", sans-serif;
+  color: var(--black);
 }
 
 .page-container {

@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
@@ -18,19 +18,18 @@ export default async function Home() {
     { src: "/product.png", alt: "Produit 4", caption: "Découvrez nos meubles" },
   ];
 
-
   return (
     <div className={styles["page-container"]}>
       <Header />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
-      <div className={styles["button-container"]}>
+      {/* <div className={styles["button-container"]}>
         <Button
           label="Voir l’intégralité du catalogue"
           onClick={() => alert("Catalogue complet")}
           iconName="eye"
         />
-      </div>
+      </div> */}
       <Footer />
     </div>
   );

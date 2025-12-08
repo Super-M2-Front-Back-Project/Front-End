@@ -16,7 +16,7 @@ const MOCK_CATEGORIES: Category[] = [
   { id: "8", name: "Jardin" },
 ];
 
-const USE_MOCK_DATA = false; // API activée
+const USE_MOCK_DATA = true; // Mettre à false pour réactiver l'API
 
 export const CategoryService = {
   async getAll(): Promise<Category[]> {
@@ -32,20 +32,11 @@ export const CategoryService = {
     });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", {
-        status: res.status,
-        statusText: res.statusText,
-        url: res.url,
-        body: errorText,
-      });
-      throw new Error(
-        `Failed to fetch categories (${res.status}): ${errorText || res.statusText}`
-      );
+      throw new Error("Failed to fetch categories");
     }
 
     const data = await res.json();
-    return Array.isArray(data) ? data : data.categories || [];
+    return data.categories || [];
   },
 
   async getById(id: string): Promise<Category | null> {
@@ -64,19 +55,10 @@ export const CategoryService = {
     );
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", {
-        status: res.status,
-        statusText: res.statusText,
-        url: res.url,
-        body: errorText,
-      });
-      throw new Error(
-        `Failed to fetch category (${res.status}): ${errorText || res.statusText}`
-      );
+      throw new Error("Failed to fetch category");
     }
 
     const data = await res.json();
-    return data.category || data || null;
+    return data.category || null;
   },
 };

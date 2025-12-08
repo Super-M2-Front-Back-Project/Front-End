@@ -1,14 +1,19 @@
-// Structure finale de l'API
-export interface Product {
+// en attendant que l'API fournisse des données au format souhaité
+export interface ProductFromAPI {
   id: string;
   name: string;
   description: string;
   price: number;
-  category_id: string | null;
+  category: string | null;
   image_url: string;
-  quantity: number;
-  is_active: boolean;
-  seller_id?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  category: string[];
+  image_url: string;
+  price: number;
 }
 
 // Données de mock pendant que l'API est désactivée
@@ -16,39 +21,30 @@ const MOCK_PRODUCTS: Product[] = [
   {
     id: "1",
     name: "Canapé Scandinave 3 Places",
-    description: "Canapé confortable de style scandinave",
-    category_id: "1",
+    category: ["Meuble", "Salon"],
     image_url:
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80",
     price: 599.99,
-    quantity: 10,
-    is_active: true,
   },
   {
     id: "2",
     name: "Le Petit Prince - Antoine de Saint-Exupéry",
-    description: "Livre classique de la littérature française",
-    category_id: "2",
+    category: ["Livre", "Fiction"],
     image_url:
       "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&q=80",
     price: 12.5,
-    quantity: 50,
-    is_active: true,
   },
   {
     id: "3",
     name: "Bureau en Bois Massif",
-    description: "Bureau robuste en bois massif",
-    category_id: "1",
+    category: ["Meuble", "Bureau"],
     image_url:
       "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80",
     price: 349.0,
-    quantity: 5,
-    is_active: true,
   },
 ];
 
-const USE_MOCK_DATA = false; // API activée
+const USE_MOCK_DATA = false; // Mettre à false pour réactiver l'API
 
 export const ProductService = {
   async getById(id: string): Promise<Product> {
@@ -73,20 +69,21 @@ export const ProductService = {
     );
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", {
-        status: res.status,
-        statusText: res.statusText,
-        url: res.url,
-        body: errorText,
-      });
-      throw new Error(
-        `Failed to fetch product (${res.status}): ${errorText || res.statusText}`
-      );
+      throw new Error("Failed to fetch product");
     }
 
-    const data = await res.json();
-    return data.product || data;
+    const data: { product: ProductFromAPI } = await res.json();
+    const p = data.product;
+
+    const product: Product = {
+      id: p.id,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
+    };
+
+    return product;
   },
 
   async getAll(): Promise<Product[]> {
@@ -105,20 +102,22 @@ export const ProductService = {
     });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", {
-        status: res.status,
-        statusText: res.statusText,
-        url: res.url,
-        body: errorText,
-      });
-      throw new Error(
-        `Failed to fetch products (${res.status}): ${errorText || res.statusText}`
-      );
+      throw new Error("Failed to fetch products");
     }
 
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.products || [];
+    const data: { products: ProductFromAPI[] } = await res.json();
+
+    const products: Product[] = data.products.map((p) => ({
+      id: p.id,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
+    }));
+
+    console.log("Fetched products from API:", products);
+
+    return products;
   },
 
   async search(query: string): Promise<Product[]> {
@@ -134,7 +133,7 @@ export const ProductService = {
       return MOCK_PRODUCTS.filter(
         (p) =>
           p.name.toLowerCase().includes(lowerQuery) ||
-          (p.category_id && p.category_id.toLowerCase().includes(lowerQuery))
+          p.category.some((cat) => cat.toLowerCase().includes(lowerQuery))
       );
     }
 
@@ -149,19 +148,19 @@ export const ProductService = {
     );
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", {
-        status: res.status,
-        statusText: res.statusText,
-        url: res.url,
-        body: errorText,
-      });
-      throw new Error(
-        `Failed to search products (${res.status}): ${errorText || res.statusText}`
-      );
+      throw new Error("Failed to search products");
     }
 
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.products || [];
+    const data: { products: ProductFromAPI[] } = await res.json();
+
+    const products: Product[] = data.products.map((p) => ({
+      id: p.id,
+      name: p.name,
+      category: p.category ? [p.category] : [],
+      image_url: p.image_url,
+      price: p.price,
+    }));
+
+    return products;
   },
 };

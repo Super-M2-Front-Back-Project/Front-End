@@ -17,7 +17,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <h1>Product Detail Page</h1>
 
       <h2>{product.name}</h2>
-      <p>Catégorie : {product.category_id || "Non catégorisé"}</p>
+      <p>Catégorie : {product.category.join(", ") || "—"}</p>
       <p>Prix : {product.price} €</p>
 
       <pre>{JSON.stringify(product, null, 2)}</pre>

@@ -9,8 +9,8 @@ export function ProductGrid({
   products: Array<{
     id: string;
     name: string;
-    category_id: string | null;
-    image_url: string;
+    category: string[];
+    imageUrl: string;
     price: number;
   }>;
 }) {

@@ -10,22 +10,17 @@ const Header: React.FC = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-  const [errorCategories, setErrorCategories] = useState<string | null>(null);
   const categoriesRef = useRef<HTMLLIElement>(null);
 
   // Charger les catégories
   useEffect(() => {
     const loadCategories = async () => {
       setIsLoadingCategories(true);
-      setErrorCategories(null);
       try {
         const data = await CategoryService.getAll();
         setCategories(data);
       } catch (error) {
         console.error("Erreur lors du chargement des catégories:", error);
-        setErrorCategories(
-          error instanceof Error ? error.message : "Erreur inconnue"
-        );
       } finally {
         setIsLoadingCategories(false);
       }
@@ -82,14 +77,8 @@ const Header: React.FC = () => {
             </button>
             {isCategoriesOpen && (
               <div className="dropdown-menu">
-                {isLoadingCategories ? (
+                {categories.length === 0 ? (
                   <div className="dropdown-empty">Chargement...</div>
-                ) : errorCategories ? (
-                  <div className="dropdown-empty">
-                    Erreur: {errorCategories}
-                  </div>
-                ) : categories.length === 0 ? (
-                  <div className="dropdown-empty">Aucune catégorie</div>
                 ) : (
                   categories.map((category) => (
                     <Link

@@ -10,31 +10,43 @@ const WishlistPopup: React.FC = () => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchWishlistItems = async () => {
-      try {
-        if (AuthService.isAuthenticated()) {
-          const items = await WishlistService.getWishlist();
-          setWishlistItems(items);
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement de la wishlist:", error);
-      } finally {
-        setIsLoading(false);
+  const fetchWishlistItems = async () => {
+    try {
+      if (AuthService.isAuthenticated()) {
+        const items = await WishlistService.getWishlist();
+        setWishlistItems(items);
       }
-    };
+    } catch (error) {
+      console.error("Erreur lors du chargement de la wishlist:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchWishlistItems();
   }, []);
 
+  // Écouter les changements de wishlist pour rafraîchir la liste
+  useEffect(() => {
+    const handleWishlistChange = () => {
+      fetchWishlistItems();
+    };
+
+    window.addEventListener("wishlistChanged", handleWishlistChange);
+    return () => {
+      window.removeEventListener("wishlistChanged", handleWishlistChange);
+    };
+  }, []);
+
   if (isLoading) {
-    return <div>Chargement de la wishlist...</div>;
+    return <div className="wishlist-loading">Chargement de la wishlist...</div>;
   }
 
   return (
     <div className="wishlist-container">
       {wishlistItems.length === 0 ? (
-        <p>Votre liste de souhaits est vide.</p>
+        <p className="wishlist-empty">Votre liste de souhaits est vide.</p>
       ) : (
         wishlistItems.map((item) => (
           <ProductCardHorizontal

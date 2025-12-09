@@ -68,6 +68,12 @@ export const WishlistService = {
     }
 
     const data = await res.json();
+    console.log("Wishlist data:", data);
+
+    // Le backend peut renvoyer soit un tableau directement, soit { wishlist: [...] }
+    if (Array.isArray(data)) {
+      return data;
+    }
     return data.wishlist || [];
   },
 

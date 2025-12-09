@@ -51,6 +51,8 @@ const IconButton: React.FC<IconButtonProps> = ({
           await WishlistService.removeFromWishlist(String(productId));
           setIsActive(false);
           console.log(`Produit ${productId} retiré de la wishlist`);
+          // Émettre un événement pour notifier le changement
+          window.dispatchEvent(new CustomEvent("wishlistChanged"));
         } else {
           // Ajouter à la wishlist
           await WishlistService.addToWishlist({
@@ -58,6 +60,8 @@ const IconButton: React.FC<IconButtonProps> = ({
           });
           setIsActive(true);
           console.log(`Produit ${productId} ajouté à la wishlist`);
+          // Émettre un événement pour notifier le changement
+          window.dispatchEvent(new CustomEvent("wishlistChanged"));
         }
       } catch (error) {
         console.error("Erreur lors de la gestion de la wishlist:", error);

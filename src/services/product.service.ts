@@ -106,11 +106,17 @@ export const ProductService = {
       await new Promise((resolve) => setTimeout(resolve, 300)); // Simuler un délai réseau
       return MOCK_PRODUCTS;
     }
-    
+
     console.log("Fetching products from API...");
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      console.error("NEXT_PUBLIC_API_URL is not defined");
+      return [];
+    }
+
     // Mode API
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+    const res = await fetch(`${apiUrl}/products`, {
       next: { revalidate: 60 },
     });
 

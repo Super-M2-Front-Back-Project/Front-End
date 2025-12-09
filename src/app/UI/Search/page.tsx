@@ -7,7 +7,7 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ placeholder = "Rechercher...", apiUrl }) => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,8 +30,8 @@ const Search: React.FC<SearchProps> = ({ placeholder = "Rechercher...", apiUrl }
 
       const data = await response.json();
       setResults(data.results || data); // selon ton format API
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erreur inconnue");
     } finally {
       setLoading(false);
     }

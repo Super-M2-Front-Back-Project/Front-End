@@ -1,5 +1,3 @@
-"use server";
-
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";

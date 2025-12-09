@@ -72,11 +72,17 @@ export const ProductService = {
       return product;
     }
 
-    console.log(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      console.error("NEXT_PUBLIC_API_URL is not defined");
+      throw new Error("API URL not configured");
+    }
+
+    console.log(`${apiUrl}/products/${id}`);
 
     // Mode API
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
+      `${apiUrl}/products/${id}`,
       {
         cache: "no-store",
       }
@@ -155,10 +161,14 @@ export const ProductService = {
     }
 
     // Mode API
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      console.error("NEXT_PUBLIC_API_URL is not defined");
+      return [];
+    }
+
     const res = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_API_URL
-      }/products/search?q=${encodeURIComponent(query)}`,
+      `${apiUrl}/products/search?q=${encodeURIComponent(query)}`,
       {
         cache: "no-store",
       }

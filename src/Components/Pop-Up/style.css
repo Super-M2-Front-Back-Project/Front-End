@@ -1,0 +1,33 @@
+.popup-overlay {
+  background-color: var(--white);
+  position: fixed;
+  z-index: 2000;
+  top: 50px;
+  right: 50px;
+  width: 484px;
+  padding: 16px;
+  border-radius: 24px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-title {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-title h2 {
+  font-size: 40px;
+  font-weight: 400;
+  font-family: "Boldet", sans-serif;
+}
+
+.popup-title p {
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,7 +1,7 @@
 "use server";
 
 import { EmblaCarousel } from "@/Components/Carousel";
-import Header from "@/Components/header";
+import Header from "@/Components/Header";
 import { ProductGrid } from "@/Components/ProductGrid";
 import { ProductService } from "@/services/product.service";
 import Button from "@/Components/Button";

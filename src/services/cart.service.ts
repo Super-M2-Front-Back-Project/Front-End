@@ -1,21 +1,19 @@
+import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
 // Types pour le panier
 export interface CartItem {
   id: string;
-  cart_id: string;
-  product_id: string;
   quantity: number;
   product?: {
     id: string;
     name: string;
     price: number;
     image_url: string;
-    description?: string;
   };
 }
 
 export interface Cart {
-  id: string;
-  user_id: string;
+  // id: string;
+  // user_id: string;
   items: CartItem[];
 }
 
@@ -35,7 +33,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  * Récupérer le token d'authentification
  */
 const getAuthHeaders = (): HeadersInit => {
-  const token = localStorage.getItem("token");
+  const token = getCookie("token");
+  console.log("Token", token);
+  
   if (!token) {
     throw new Error("Authentication required");
   }
@@ -49,18 +49,22 @@ export const CartService = {
   /**
    * Récupérer le panier de l'utilisateur connecté
    */
-  async getCart(): Promise<Cart> {
-    const res = await fetch(`${API_URL}/cart/get`, {
+  async getCart(user_id: string): Promise<Cart> {
+    const res = await fetch(`${API_URL}/cart/get/${user_id}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
+
+    console.log("RES", res);
+    
 
     if (!res.ok) {
       throw new Error("Failed to fetch cart");
     }
 
     const data = await res.json();
-    return data.cart || { id: "", user_id: "", items: [] };
+    
+    return data || { id: "", user_id: "", items: [] };
   },
 
   /**

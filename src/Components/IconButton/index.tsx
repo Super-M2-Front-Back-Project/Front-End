@@ -88,6 +88,8 @@ const IconButton: React.FC<IconButtonProps> = ({
           quantity: 1,
         });
         console.log(`Produit ${productId} ajouté au panier avec succès`);
+        // Émettre un événement pour notifier le changement
+        window.dispatchEvent(new CustomEvent("cartChanged"));
       } catch (error) {
         console.error("Erreur lors de l'ajout au panier:", error);
         // Si l'erreur est liée à l'authentification, ouvrir la popup

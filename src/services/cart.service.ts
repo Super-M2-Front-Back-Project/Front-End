@@ -1,4 +1,6 @@
 import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
+import { getUserIdFromToken } from "@/utils/jwt";
+
 // Types pour le panier
 export interface CartItem {
   id: string;
@@ -35,7 +37,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const getAuthHeaders = (): HeadersInit => {
   const token = getCookie("token");
   console.log("Token", token);
-  
+
   if (!token) {
     throw new Error("Authentication required");
   }
@@ -45,36 +47,63 @@ const getAuthHeaders = (): HeadersInit => {
   };
 };
 
+/**
+ * Extraire le sub (user_id) du JWT
+ */
+const getUserIdFromJWT = (): string => {
+  const token = getCookie("token");
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+  const userId = getUserIdFromToken(token);
+  if (!userId) {
+    throw new Error("Invalid token: missing user ID");
+  }
+  return userId;
+};
+
 export const CartService = {
   /**
    * Récupérer le panier de l'utilisateur connecté
+   * Le user_id (sub) est extrait du JWT et envoyé dans l'URL
    */
-  async getCart(user_id: string): Promise<Cart> {
-    const res = await fetch(`${API_URL}/cart/get/${user_id}`, {
+  async getCart(): Promise<Cart> {
+    const userId = getUserIdFromJWT();
+    const res = await fetch(`${API_URL}/cart/get/${userId}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
 
     console.log("RES", res);
-    
 
     if (!res.ok) {
       throw new Error("Failed to fetch cart");
     }
 
     const data = await res.json();
-    
-    return data || { id: "", user_id: "", items: [] };
+    console.log("Cart data:", data);
+
+    // Le backend peut renvoyer soit un objet directement, soit { items: [...] }
+    if (data.items) {
+      return data;
+    }
+    return { items: data || [] };
   },
 
   /**
    * Ajouter un article au panier
+   * Le user_id (sub) est extrait du JWT et envoyé dans le body
    */
   async addToCart(data: AddToCartData): Promise<CartItem> {
+    const userId = getUserIdFromJWT();
     const res = await fetch(`${API_URL}/cart/post`, {
       method: "POST",
       headers: getAuthHeaders(),
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        user_id: userId,
+        item_id: data.product_id,
+        quantity: data.quantity,
+      }),
     });
 
     if (!res.ok) {

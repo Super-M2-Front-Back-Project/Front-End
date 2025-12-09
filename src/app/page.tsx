@@ -23,13 +23,6 @@ export default async function Home() {
       <Header />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
-      {/* <div className={styles["button-container"]}>
-        <Button
-          label="Voir l’intégralité du catalogue"
-          onClick={() => alert("Catalogue complet")}
-          iconName="eye"
-        />
-      </div> */}
       <Footer />
     </div>
   );

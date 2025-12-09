@@ -8,54 +8,53 @@ import { CartService, Cart } from "@/services/cart.service";
 import { AuthService } from "@/services/auth.service";
 
 const CartList: React.FC = () => {
-  const [user, setUser] = useState<null | {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    birthdate?: string;
-    street?: string;
-    postal_code?: string;
-    city?: string;
-    phone?: string;
-  }>(null);
-
-  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
-
   const [cartItems, setCartItems] = useState<Cart>({ items: [] });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const items = await CartService.getCart(
-          "eb4bef7e-e85a-4395-8302-ee2e6ad894f6"
-        );
+  const fetchCartItems = async () => {
+    try {
+      if (AuthService.isAuthenticated()) {
+        const items = await CartService.getCart();
         setCartItems(items);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Erreur lors du chargement du panier:", error);
       }
+    } catch (error) {
+      console.error("Erreur lors du chargement du panier:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
+  // Écouter les changements de panier pour rafraîchir la liste
+  useEffect(() => {
+    const handleCartChange = () => {
+      fetchCartItems();
     };
 
-    fetchCartItems();
+    window.addEventListener("cartChanged", handleCartChange);
+    return () => {
+      window.removeEventListener("cartChanged", handleCartChange);
+    };
   }, []);
 
   console.log("items", cartItems);
 
   if (isLoading) {
-    return <div>Chargement du panier...</div>;
+    return <div className="cart-loading">Chargement du panier...</div>;
   }
 
   return (
     <div className="cart-container">
       {cartItems.items.length === 0 ? (
-        <p>Votre panier est vide.</p>
+        <p className="cart-empty">Votre panier est vide.</p>
       ) : (
         cartItems.items.map((item) => (
           <ProductCardHorizontal
-            key={item.id} // toujours ajouter un key dans un map
+            key={item.id}
             product={{
               id: item.product?.id || "1",
               name: item.product?.name || "Produit Exemple",

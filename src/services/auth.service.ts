@@ -1,4 +1,5 @@
 import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
+import { getUserIdFromToken, getEmailFromToken, getRoleFromToken, decodeJWT } from "@/utils/jwt";
 
 // Types pour l'authentification
 export interface User {
@@ -215,5 +216,37 @@ export const AuthService = {
    */
   getToken(): string | null {
     return getCookie("token");
+  },
+
+  /**
+   * Récupérer l'userId depuis le JWT
+   */
+  getUserId(): string | null {
+    const token = this.getToken();
+    return token ? getUserIdFromToken(token) : null;
+  },
+
+  /**
+   * Récupérer l'email depuis le JWT
+   */
+  getUserEmail(): string | null {
+    const token = this.getToken();
+    return token ? getEmailFromToken(token) : null;
+  },
+
+  /**
+   * Récupérer le rôle depuis le JWT
+   */
+  getUserRole(): string | null {
+    const token = this.getToken();
+    return token ? getRoleFromToken(token) : null;
+  },
+
+  /**
+   * Récupérer toutes les infos du JWT décodé
+   */
+  getJWTPayload(): ReturnType<typeof decodeJWT> {
+    const token = this.getToken();
+    return token ? decodeJWT(token) : null;
   },
 };

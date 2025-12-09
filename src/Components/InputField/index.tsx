@@ -10,7 +10,7 @@ interface InputFieldProps {
   type?: string; // Type du champ (text, email, password, etc.)
   value: string; // Valeur actuelle
   onChange: (value: string) => void; // Fonction appelée à chaque changement
-  placeholder?: string; // Texte d’exemple
+  placeholder?: string; // Texte d'exemple
   required?: boolean; // Champ obligatoire ou non
 }
 

@@ -4,10 +4,12 @@ import Link from "next/link";
 import SearchBar from "../Search";
 import Image from "next/image";
 import { CategoryService, type Category } from "@/services/category.service";
+import { AuthService, type User } from "@/services/auth.service";
 import "./style.css";
 
 import PopUp from "../Pop-Up";
 import AuthProfileForm from "../auth";
+import UserProfile from "../UserProfile";
 
 interface PopUpProps {
   title: string;
@@ -23,6 +25,8 @@ const Header: React.FC = () => {
   const categoriesRef = useRef<HTMLLIElement>(null);
 
   const [popUp, setPopUp] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   const [popUpProps, setPopUpProps] = useState<PopUpProps>({
     title: "",
@@ -36,6 +40,25 @@ const Header: React.FC = () => {
       title: title,
     }));
   }
+
+  // Charger l'utilisateur si connecté
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        if (AuthService.isAuthenticated()) {
+          const currentUser = await AuthService.me();
+          setUser(currentUser);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement de l'utilisateur:", error);
+        setUser(null);
+      } finally {
+        setIsLoadingUser(false);
+      }
+    };
+
+    loadUser();
+  }, []);
 
   // Charger les catégories
   useEffect(() => {
@@ -164,11 +187,40 @@ const Header: React.FC = () => {
                 alt="User Icon"
                 className="icon-btn"
                 onClick={() => {
-                  setPopUpProps(prevProps => ({
-                    ...prevProps,
-                    content: <AuthProfileForm setTitle={setTitle} />,
-                    onClose: () => setPopUp(false),
-                  }));
+                  if (user) {
+                    // Si l'utilisateur est connecté, afficher son profil
+                    setPopUpProps({
+                      title: "Mon compte",
+                      content: (
+                        <UserProfile
+                          user={user}
+                          onLogout={async () => {
+                            await AuthService.logout();
+                            setUser(null);
+                            setPopUp(false);
+                            window.location.reload();
+                          }}
+                        />
+                      ),
+                      onClose: () => setPopUp(false),
+                    });
+                  } else {
+                    // Sinon, afficher le formulaire de connexion
+                    setPopUpProps({
+                      title: "",
+                      content: (
+                        <AuthProfileForm
+                          setTitle={setTitle}
+                          onSubmit={() => {
+                            // Recharger l'utilisateur après connexion
+                            AuthService.me().then(setUser).catch(console.error);
+                            setPopUp(false);
+                          }}
+                        />
+                      ),
+                      onClose: () => setPopUp(false),
+                    });
+                  }
                   setPopUp(true);
                 }}
               />

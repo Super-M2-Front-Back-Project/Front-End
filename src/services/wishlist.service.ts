@@ -1,4 +1,5 @@
 import { getCookie } from "@/utils/cookies";
+import { getUserIdFromToken } from "@/utils/jwt";
 
 // Types pour la wishlist
 export interface WishlistItem {
@@ -35,12 +36,29 @@ const getAuthHeaders = (): HeadersInit => {
   };
 };
 
+/**
+ * Extraire le sub (user_id) du JWT
+ */
+const getUserIdFromJWT = (): string => {
+  const token = getCookie("token");
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+  const userId = getUserIdFromToken(token);
+  if (!userId) {
+    throw new Error("Invalid token: missing user ID");
+  }
+  return userId;
+};
+
 export const WishlistService = {
   /**
    * Récupérer la wishlist de l'utilisateur connecté
+   * Le user_id (sub) est extrait du JWT et envoyé dans l'URL
    */
   async getWishlist(): Promise<WishlistItem[]> {
-    const res = await fetch(`${API_URL}/wishlist`, {
+    const userId = getUserIdFromJWT();
+    const res = await fetch(`${API_URL}/wishlist/get/${userId}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -55,12 +73,17 @@ export const WishlistService = {
 
   /**
    * Ajouter un produit à la wishlist
+   * Le user_id (sub) est extrait du JWT et envoyé dans le body
    */
   async addToWishlist(data: AddToWishlistData): Promise<WishlistItem> {
-    const res = await fetch(`${API_URL}/wishlist`, {
+    const userId = getUserIdFromJWT();
+    const res = await fetch(`${API_URL}/wishlist/post`, {
       method: "POST",
       headers: getAuthHeaders(),
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        user_id: userId,
+        item_id: data.product_id,
+      }),
     });
 
     if (!res.ok) {
@@ -74,9 +97,10 @@ export const WishlistService = {
 
   /**
    * Supprimer un produit de la wishlist
+   * Le user_id est extrait du JWT par le backend (claim 'sub')
    */
   async removeFromWishlist(productId: string): Promise<void> {
-    const res = await fetch(`${API_URL}/wishlist`, {
+    const res = await fetch(`${API_URL}/wishlist/delete`, {
       method: "DELETE",
       headers: getAuthHeaders(),
       body: JSON.stringify({ product_id: productId }),

@@ -3,7 +3,8 @@
  */
 
 export interface JWTPayload {
-  userId?: string;
+  sub?: string; // User ID (standard JWT claim)
+  userId?: string; // Deprecated, use sub
   email?: string;
   role?: string;
   exp?: number;
@@ -32,11 +33,12 @@ export function decodeJWT(token: string): JWTPayload | null {
 }
 
 /**
- * Extraire l'userId du JWT
+ * Extraire l'userId du JWT (utilise sub, le claim standard JWT)
  */
 export function getUserIdFromToken(token: string): string | null {
   const payload = decodeJWT(token);
-  return payload?.userId ?? null;
+  // Priorité à sub (standard JWT), fallback sur userId pour compatibilité
+  return payload?.sub ?? payload?.userId ?? null;
 }
 
 /**

@@ -11,6 +11,8 @@ import Link from "next/link";
 import AddToCartButton from "@/Components/AddToCartButton";
 import IconButton from "@/Components/IconButton";
 
+export const dynamic = 'force-dynamic';
+
 type ProductPageProps = {
   params: Promise<{ id: string }>;
 };

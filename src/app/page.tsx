@@ -8,6 +8,8 @@ import Button from "@/Components/Button";
 import Footer from "@/Components/Footer";
 import styles from "./page.module.css";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const products = await ProductService.getAll();
 

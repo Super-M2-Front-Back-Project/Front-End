@@ -10,6 +10,7 @@ import "./style.css";
 import PopUp from "../Pop-Up";
 import AuthProfileForm from "../auth";
 import UserProfile from "../UserProfile";
+import CartList from "../Cart";
 
 interface PopUpProps {
   title: string;
@@ -168,15 +169,21 @@ const Header: React.FC = () => {
           </li>
 
           <li>
-            <Link href="/cart">
               <Image
                 width={40}
                 height={40}
                 src="/assets/icons/basket.svg"
                 alt="Panier"
                 className="icon-btn"
+                onClick={() => {
+                  setPopUpProps({
+                    title: "Mon panier",
+                    content: <CartList />,
+                    onClose: () => setPopUp(false),
+                  });
+                  setPopUp(true);
+                }}
               />
-            </Link>
           </li>
 
           <li>

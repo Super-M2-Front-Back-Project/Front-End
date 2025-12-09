@@ -9,10 +9,16 @@ import { Pagination } from "@/Components/Pagination";
 import Footer from "@/Components/Footer";
 import styles from "./page.module.css";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    categoryParam ? [categoryParam] : []
+  );
   const [selectedOrder, setSelectedOrder] = useState<string>("Popularité");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +38,16 @@ export default function ProductsPage() {
 
     loadProducts();
   }, []);
+
+  // Mettre à jour la catégorie sélectionnée quand le paramètre URL change
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategories([categoryParam]);
+      setCurrentPage(1); // Réinitialiser à la première page
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [categoryParam]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = [...allProducts];

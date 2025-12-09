@@ -94,7 +94,7 @@ const Header: React.FC = () => {
                   categories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/categories/${category.id}`}
+                      href={`/products?category=${category.id}`}
                       className="category-item"
                       onClick={() => setIsCategoriesOpen(false)}
                     >

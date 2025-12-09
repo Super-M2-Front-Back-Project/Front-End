@@ -6,12 +6,36 @@ import Image from "next/image";
 import { CategoryService, type Category } from "@/services/category.service";
 import "./style.css";
 
+import PopUp from "../Pop-Up";
+import AuthProfileForm from "../auth";
+
+interface PopUpProps {
+  title: string;
+  content: React.ReactNode;
+  onClose: () => void;
+}
+
 const Header: React.FC = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [errorCategories, setErrorCategories] = useState<string | null>(null);
   const categoriesRef = useRef<HTMLLIElement>(null);
+
+  const [popUp, setPopUp] = useState<boolean>(false);
+
+  const [popUpProps, setPopUpProps] = useState<PopUpProps>({
+    title: "",
+    content: <div />,
+    onClose: () => setPopUp(false),
+  });
+
+  const setTitle = (title: string) => {
+    setPopUpProps((prevProps) => ({
+      ...prevProps,
+      title: title,
+    }));
+  }
 
   // Charger les catégories
   useEffect(() => {
@@ -133,16 +157,29 @@ const Header: React.FC = () => {
           </li>
 
           <li>
-            <Link href="/user">
               <Image
                 width={24}
                 height={24}
                 src="/assets/icons/user.svg"
                 alt="User Icon"
                 className="icon-btn"
+                onClick={() => {
+                  setPopUpProps(prevProps => ({
+                    ...prevProps,
+                    content: <AuthProfileForm setTitle={setTitle} />,
+                    onClose: () => setPopUp(false),
+                  }));
+                  setPopUp(true);
+                }}
               />
-            </Link>
           </li>
+          {popUp &&
+            <PopUp 
+              title={popUpProps.title}
+              content={popUpProps.content}
+              onClose={popUpProps.onClose}
+            />
+          }
           <p></p>
         </ul>
       </nav>

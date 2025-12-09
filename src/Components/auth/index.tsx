@@ -1,11 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import InputField from "../InputField";
+import Button from "../Button";
+import { AuthService } from "@/services";
+import { cookies } from "next/headers";
+import "./style.css";
 
 type Mode = "login" | "register" | "profile";
 
 type AuthProfileFormProps = {
   mode?: Mode;
+  setTitle: (title: string) => void;
   onSubmit?: (data: any) => void;
   initialProfile?: {
     email?: string;
@@ -19,217 +25,228 @@ type AuthProfileFormProps = {
   };
 };
 
-export default function AuthProfileForm({
+export default async function AuthProfileForm({
   mode = "login",
   onSubmit,
+  setTitle,
   initialProfile = {},
 }: AuthProfileFormProps) {
   const [currentMode, setCurrentMode] = useState<Mode>(mode);
 
-  // Champs login + register
-  const [email, setEmail] = useState(initialProfile.email || "");
-  const [password, setPassword] = useState("");
+  const [data, setData] = useState<any>({
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    birthdate: "",
+    street: "",
+    postal_code: "",
+    city: "",
+    phone: "",
+  });
 
-  // Champs inscription + profil
-  const [firstName, setFirstName] = useState(initialProfile.first_name || "");
-  const [lastName, setLastName] = useState(initialProfile.last_name || "");
-  const [birthdate, setBirthdate] = useState(initialProfile.birthdate || "");
+  const cookiesStore = await cookies();
 
-  // Champs profil
-  const [street, setStreet] = useState(initialProfile.street || "");
-  const [postalCode, setPostalCode] = useState(initialProfile.postal_code || "");
-  const [city, setCity] = useState(initialProfile.city || "");
-  const [phone, setPhone] = useState(initialProfile.phone || "");
+  const handleChange = (field: string, value: string) => {
+    setData((prevData: any) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (onSubmit) {
-      const data: any = { email };
+  try {
+    let response;
 
-      if (currentMode !== "profile") data.password = password;
+    if (currentMode === "login") {
+      response = await AuthService.login({
+        email: data.email,
+        password: data.password,
+      });
 
-      if (currentMode !== "login") {
-        data.first_name = firstName;
-        data.last_name = lastName;
-        data.birthdate = birthdate;
-      }
-
-      if (currentMode === "profile") {
-        data.street = street;
-        data.postal_code = postalCode;
-        data.city = city;
-        data.phone = phone;
-      }
-
-      onSubmit(data);
+      cookiesStore.set("token", response.token);
     }
-  };
+
+    if (currentMode === "register") {
+      response = await AuthService.register({
+        email: data.email,
+        password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        birthdate: data.birthdate,
+        street: data.street,
+        postal_code: data.postal_code,
+        city: data.city,
+        phone: data.phone,
+      });
+
+      setCurrentMode("login");
+    }
+
+    setData({
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      birthdate: "",
+      street: "",
+      postal_code: "",
+      city: "",
+      phone: "",
+    });
+
+    // callback si fourni
+    if (onSubmit) onSubmit(response);
+
+  } catch (error: any) {
+    console.error("Erreur du formulaire :", error);
+  }
+};
+
+
+  useEffect(() => {
+    setTitle(
+      currentMode === "login"
+        ? "Connexion"
+        : currentMode === "register"
+        ? "Inscription"
+        : "Votre Profil"
+    );
+  }, [currentMode, setTitle]);
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white shadow rounded">
-      <h2 className="text-2xl font-semibold mb-4 text-center">
-        {currentMode === "login" && "Connexion"}
-        {currentMode === "register" && "Inscription"}
-        {currentMode === "profile" && "Créer / Modifier votre Profil"}
-      </h2>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-
+    <div className="AuthProfileForm-container">
+      <form onSubmit={handleSubmit} className="Auth-form">
         {/* REGISTER + PROFILE */}
         {(currentMode === "register" || currentMode === "profile") && (
           <>
-            <div>
-              <label className="block mb-1 font-medium">Prénom</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="Votre prénom"
-              />
-            </div>
+            <InputField
+              id="first_name"
+              name="first_name"
+              label="Prénom"
+              type="text"
+              value={data.first_name}
+              onChange={(value) => handleChange("first_name", value)}
+              placeholder="John"
+            />
 
-            <div>
-              <label className="block mb-1 font-medium">Nom</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Votre nom"
-              />
-            </div>
+            <InputField
+              id="last_name"
+              name="last_name"
+              label="Nom"
+              type="text"
+              value={data.last_name}
+              onChange={(value) => handleChange("last_name", value)}
+              placeholder="Doe"
+            />
 
-            <div>
-              <label className="block mb-1 font-medium">Date de naissance</label>
-              <input
-                type="date"
-                className="w-full border rounded px-3 py-2"
-                value={birthdate}
-                onChange={(e) => setBirthdate(e.target.value)}
-              />
-            </div>
+            <InputField
+              id="birthdate"
+              name="birthdate"
+              label="Date de naissance"
+              type="date"
+              value={data.birthdate}
+              onChange={(value) => handleChange("birthdate", value)}
+            />
           </>
         )}
 
         {/* Email */}
-        <div>
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            className="w-full border rounded px-3 py-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="email@example.com"
-          />
-        </div>
+        <InputField
+          id="email"
+          name="email"
+          label="Email"
+          type="email"
+          value={data.email}
+          onChange={(value) => handleChange("email", value)}
+          placeholder="email@example.com"
+        />
 
-        {/* Password */}
+        {/* Mot de passe seulement pour login/register */}
         {currentMode !== "profile" && (
-          <div>
-            <label className="block mb-1 font-medium">Mot de passe</label>
-            <input
-              type="password"
-              className="w-full border rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="********"
-            />
-          </div>
+          <InputField
+            id="password"
+            name="password"
+            label="Mot de passe"
+            type="password"
+            value={data.password}
+            onChange={(value) => handleChange("password", value)}
+            placeholder="********"
+          />
         )}
 
-        {/* PROFILE ONLY */}
-        {currentMode === "profile" && (
+        {/* REGISTER ONLY */}
+        {currentMode === "register" && (
           <>
-            <div>
-              <label className="block mb-1 font-medium">Rue</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                placeholder="Rue et numéro"
-              />
-            </div>
+            <InputField
+              id="street"
+              name="street"
+              label="Rue"
+              type="text"
+              value={data.street}
+              onChange={(value) => handleChange("street", value)}
+              placeholder="5 Avenue des Champs-Élysées"
+            />
 
-            <div>
-              <label className="block mb-1 font-medium">Code postal</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-                placeholder="75000"
-              />
-            </div>
+            <InputField
+              id="postal_code"
+              name="postal_code"
+              label="Code postal"
+              type="text"
+              value={data.postal_code}
+              onChange={(value) => handleChange("postal_code", value)}
+              placeholder="75000"
+            />
 
-            <div>
-              <label className="block mb-1 font-medium">Ville</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Paris"
-              />
-            </div>
+            <InputField
+              id="city"
+              name="city"
+              label="Ville"
+              type="text"
+              value={data.city}
+              onChange={(value) => handleChange("city", value)}
+              placeholder="Paris"
+            />
 
-            <div>
-              <label className="block mb-1 font-medium">Téléphone</label>
-              <input
-                type="text"
-                className="w-full border rounded px-3 py-2"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+33 6 12 34 56 78"
-              />
-            </div>
+            <InputField
+              id="phone"
+              name="phone"
+              label="Téléphone"
+              type="text"
+              value={data.phone}
+              onChange={(value) => handleChange("phone", value)}
+              placeholder="+33 6 12 34 56 78"
+            />
           </>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          {currentMode === "login" && "Se connecter"}
-          {currentMode === "register" && "Créer mon compte"}
-          {currentMode === "profile" && "Enregistrer le profil"}
-        </button>
+          label={
+            currentMode === "login"
+              ? "Se connecter"
+              : currentMode === "register"
+              ? "Créer mon compte"
+              : "Enregistrer le profil"
+          }
+        />
       </form>
 
       {/* Switch modes */}
       {currentMode !== "profile" && (
-        <p className="text-center mt-4 text-sm">
+        <div className="Auth-change-mode">
           {currentMode === "login" ? (
-            <>
-              Pas de compte ?{" "}
-              <button
-                className="text-blue-600 underline"
-                onClick={() => setCurrentMode("register")}
-              >
-                Créer un compte
-              </button>
-              <br />
-              <button
-                className="text-green-600 underline mt-2"
-                onClick={() => setCurrentMode("profile")}
-              >
-                Continuer → Créer votre profil
-              </button>
-            </>
+            <span onClick={() => setCurrentMode("register")}>
+              Pas de compte ? Créer un compte
+            </span>
           ) : (
-            <>
-              Vous avez déjà un compte ?{" "}
-              <button
-                className="text-blue-600 underline"
-                onClick={() => setCurrentMode("login")}
-              >
-                Se connecter
-              </button>
-            </>
+            <span onClick={() => setCurrentMode("login")}>
+              Vous avez déjà un compte ? Se connecter
+            </span>
           )}
-        </p>
+        </div>
       )}
     </div>
   );

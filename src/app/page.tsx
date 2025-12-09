@@ -7,7 +7,7 @@ import { ProductService } from "@/services/product.service";
 import Button from "@/Components/Button";
 import Footer from "@/Components/Footer";
 import styles from "./page.module.css";
-
+import Wishlist from "@/Components/Wishlist";
 export default async function Home() {
   const products = await ProductService.getAll();
 
@@ -20,7 +20,6 @@ export default async function Home() {
     { src: "/product.png", alt: "Produit 4", caption: "Découvrez nos meubles" },
   ];
 
-
   return (
     <div className={styles["page-container"]}>
       <Header />
@@ -31,8 +30,19 @@ export default async function Home() {
         onClick={() => alert("Catalogue complet")}
         iconName="eye"
       />
+      <Wishlist
+        products={products.slice(0, 3).map((product, index) => ({
+          id: index,
+          title: product.name,
+          price: product.price.toFixed(2),
+          image: product.image_url,
+        }))}
+        onClose={() => alert("Fermer la wishlist")}
+        onAddAllToCart={() => alert("Ajouter tous les produits au panier")}
+      />
+
+      
       <Footer />
     </div>
-         
   );
 }

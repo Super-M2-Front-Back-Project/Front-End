@@ -1,0 +1,21 @@
+.Auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.AuthProfileForm-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.AuthProfileForm-container p {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Auth-change-mode {
+  cursor: pointer;
+}

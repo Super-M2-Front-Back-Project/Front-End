@@ -62,6 +62,8 @@ export const AuthService = {
    * Inscription d'un nouvel utilisateur
    */
   async register(data: RegisterData): Promise<AuthResponse> {
+    console.log("REGISTER");
+    
     const res = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: {

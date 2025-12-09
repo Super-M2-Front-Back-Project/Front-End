@@ -138,3 +138,7 @@
 .category-name {
   flex: 1;
 }
+
+.icon-btn {
+  cursor: pointer;
+}

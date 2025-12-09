@@ -6,6 +6,7 @@ import "./style.css";
 interface InputFieldProps {
   label: string; // Le texte du label
   id: string; // L'id du champ (lié au label)
+  name?: string; // Le nom du champ
   type?: string; // Type du champ (text, email, password, etc.)
   value: string; // Valeur actuelle
   onChange: (value: string) => void; // Fonction appelée à chaque changement
@@ -16,6 +17,7 @@ interface InputFieldProps {
 const InputField: React.FC<InputFieldProps> = ({
   label,
   id,
+  name,
   type = "text",
   value,
   onChange,
@@ -30,6 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="input-container-field">
         <input
           id={id}
+          name={name}
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}

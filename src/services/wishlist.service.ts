@@ -1,0 +1,100 @@
+// Types pour la wishlist
+export interface WishlistItem {
+  id: string;
+  user_id: string;
+  product_id: string;
+  added_at: string;
+  product?: {
+    id: string;
+    name: string;
+    price: number;
+    image_url: string;
+    description?: string;
+  };
+}
+
+export interface AddToWishlistData {
+  product_id: string;
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+/**
+ * Récupérer le token d'authentification
+ */
+const getAuthHeaders = (): HeadersInit => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+};
+
+export const WishlistService = {
+  /**
+   * Récupérer la wishlist de l'utilisateur connecté
+   */
+  async getWishlist(): Promise<WishlistItem[]> {
+    const res = await fetch(`${API_URL}/wishlist`, {
+      method: "GET",
+      headers: getAuthHeaders(),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch wishlist");
+    }
+
+    const data = await res.json();
+    return data.wishlist || [];
+  },
+
+  /**
+   * Ajouter un produit à la wishlist
+   */
+  async addToWishlist(data: AddToWishlistData): Promise<WishlistItem> {
+    const res = await fetch(`${API_URL}/wishlist`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Failed to add to wishlist");
+    }
+
+    const responseData = await res.json();
+    return responseData.item;
+  },
+
+  /**
+   * Supprimer un produit de la wishlist
+   */
+  async removeFromWishlist(productId: string): Promise<void> {
+    const res = await fetch(`${API_URL}/wishlist`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ product_id: productId }),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Failed to remove from wishlist");
+    }
+  },
+
+  /**
+   * Vérifier si un produit est dans la wishlist
+   */
+  async isInWishlist(productId: string): Promise<boolean> {
+    try {
+      const wishlist = await this.getWishlist();
+      return wishlist.some((item) => item.product_id === productId);
+    } catch {
+      return false;
+    }
+  },
+};

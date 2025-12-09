@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { EmblaCarousel } from "@/Components/Carousel";
 import Header from "@/Components/Header";
@@ -10,8 +10,6 @@ import styles from "./page.module.css";
 import Wishlist from "@/Components/Wishlist";
 export default async function Home() {
   const products = await ProductService.getAll();
-
-  console.log("Products in Home page:", products);
 
   const slides = [
     { src: "/product.png", alt: "Produit 1", caption: "Découvrez nos meubles" },
@@ -25,23 +23,7 @@ export default async function Home() {
       <Header />
       <EmblaCarousel slides={slides} />
       <ProductGrid products={products} />
-      <Button
-        label="Voir l’intégralité du catalogue"
-        onClick={() => alert("Catalogue complet")}
-        iconName="eye"
-      />
-      <Wishlist
-        products={products.slice(0, 3).map((product, index) => ({
-          id: index,
-          title: product.name,
-          price: product.price.toFixed(2),
-          image: product.image_url,
-        }))}
-        onClose={() => alert("Fermer la wishlist")}
-        onAddAllToCart={() => alert("Ajouter tous les produits au panier")}
-      />
 
-      
       <Footer />
     </div>
   );

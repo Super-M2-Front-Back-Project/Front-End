@@ -1,5 +1,11 @@
 "use client";
 import React, { useState } from "react";
+
+interface SearchResult {
+  name: string;
+  [key: string]: unknown;
+}
+
 interface SearchProps {
   placeholder?: string;
   apiUrl: string; // URL de l'API à appeler
@@ -7,7 +13,7 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ placeholder = "Rechercher...", apiUrl }) => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<unknown[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -83,11 +89,11 @@ const Search: React.FC<SearchProps> = ({ placeholder = "Rechercher...", apiUrl }
                     i !== results.length - 1 ? "1px solid #eee" : "none",
                 }}
                 onClick={() => {
-                  setQuery(item.name || item);
+                  setQuery(item.name);
                   setResults([]);
                 }}
               >
-                {item.name || item}
+                {item.name}
               </div>
             ))}
         </div>

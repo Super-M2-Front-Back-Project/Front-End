@@ -58,10 +58,12 @@ const CartList: React.FC = () => {
             product={{
               id: item.product?.id || "1",
               name: item.product?.name || "Produit Exemple",
-              category_id: "Meuble",
+              description: "",
+              category_id: null,
               price: item.product?.price || 19.99,
               image_url: item.product?.image_url || "/example.jpg",
-              category: ["Catégorie 1"],
+              quantity: item.quantity,
+              is_active: true,
             }}
             onClick={() => console.log("Produit cliqué", item.product?.name)}
           />

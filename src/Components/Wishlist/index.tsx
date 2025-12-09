@@ -54,10 +54,12 @@ const WishlistPopup: React.FC = () => {
             product={{
               id: item.product?.id || item.product_id,
               name: item.product?.name || "Produit",
+              description: "",
               category_id: null,
               price: item.product?.price || 0,
               image_url: item.product?.image_url || "/example.jpg",
-              category: [],
+              quantity: 0,
+              is_active: true,
             }}
             onClick={() => console.log("Produit cliqué", item.product?.name)}
           />

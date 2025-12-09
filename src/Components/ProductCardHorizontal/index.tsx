@@ -5,16 +5,10 @@ import Image from "next/image";
 import "./style.css";
 
 import IconButton from "../IconButton";
+import type { Product } from "@/services/product.service";
 
 interface ProductCardHorizontalProps {
-  product: {
-    id: string;
-    name: string;
-    category_id: string | null;
-    price: number;
-    image_url: string;
-    category: string[];
-  };
+  product: Product;
   onClick: () => void;
 }
 

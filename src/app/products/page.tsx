@@ -8,10 +8,10 @@ import { OrderBy } from "@/Components/OrderBy";
 import { Pagination } from "@/Components/Pagination";
 import Footer from "@/Components/Footer";
 import styles from "./page.module.css";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
 
@@ -121,5 +121,13 @@ export default function ProductsPage() {
       )}
       <Footer />
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <ProductsPageContent />
+    </Suspense>
   );
 }

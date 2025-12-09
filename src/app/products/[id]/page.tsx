@@ -8,7 +8,7 @@ import Footer from "@/Components/Footer";
 import CustomerReview from "@/Components/CustomerReview";
 import styles from "./page.module.css";
 import Link from "next/link";
-import Button from "@/Components/Button";
+import AddToCartButton from "@/Components/AddToCartButton";
 import IconButton from "@/Components/IconButton";
 
 type ProductPageProps = {
@@ -53,7 +53,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
           <p className={styles["product-description"]}>{product.description}</p>
           <div className={styles["product-actions"]}>
-            <Button label="Ajouter au panier" iconName="addCart" />
+            <AddToCartButton productId={product.id} />
             <IconButton variant="like" productId={product.id} size={40} />
           </div>
           <CustomerReview productId={product.id} />

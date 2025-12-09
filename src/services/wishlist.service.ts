@@ -1,3 +1,5 @@
+import { getCookie } from "@/utils/cookies";
+
 // Types pour la wishlist
 export interface WishlistItem {
   id: string;
@@ -23,7 +25,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  * Récupérer le token d'authentification
  */
 const getAuthHeaders = (): HeadersInit => {
-  const token = localStorage.getItem("token");
+  const token = getCookie("token");
   if (!token) {
     throw new Error("Authentication required");
   }

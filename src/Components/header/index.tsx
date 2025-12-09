@@ -11,6 +11,8 @@ import PopUp from "../Pop-Up";
 import AuthProfileForm from "../auth";
 import UserProfile from "../UserProfile";
 import CartList from "../Cart";
+import WishlistPopup from "../Wishlist";
+import { OPEN_LOGIN_POPUP_EVENT, requestLoginPopup } from "@/utils/authEvents";
 
 interface PopUpProps {
   title: string;
@@ -40,7 +42,7 @@ const Header: React.FC = () => {
       ...prevProps,
       title: title,
     }));
-  }
+  };
 
   // Charger l'utilisateur si connecté
   useEffect(() => {
@@ -97,6 +99,32 @@ const Header: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Écouter les demandes d'ouverture de la popup de connexion
+  useEffect(() => {
+    const handleOpenLoginPopup = () => {
+      if (!user) {
+        setPopUpProps({
+          title: "",
+          content: (
+            <AuthProfileForm
+              setTitle={setTitle}
+              onSubmit={() => {
+                AuthService.me().then(setUser).catch(console.error);
+                setPopUp(false);
+              }}
+            />
+          ),
+          onClose: () => setPopUp(false),
+        });
+        setPopUp(true);
+      }
+    };
+
+    window.addEventListener(OPEN_LOGIN_POPUP_EVENT, handleOpenLoginPopup);
+    return () =>
+      window.removeEventListener(OPEN_LOGIN_POPUP_EVENT, handleOpenLoginPopup);
+  }, [user]);
+
   return (
     <header className="header">
       <div className="left-container">
@@ -114,7 +142,7 @@ const Header: React.FC = () => {
       <nav className="right-container">
         <ul>
           <li>
-            <Link href="/Catalogue">Catalogue</Link>
+            <Link href="/products">Catalogue</Link>
           </li>
           <li ref={categoriesRef} className="dropdown-container">
             <button
@@ -157,88 +185,98 @@ const Header: React.FC = () => {
             )}
           </li>
           <li>
-            <Link href="/coup-de-coeur">
-              <Image
-                width={24}
-                height={24}
-                src="/assets/icons/heart-filled.svg"
-                alt="Coup de cœur"
-                className="icon-btn"
-              />
-            </Link>
+            <Image
+              width={24}
+              height={24}
+              src="/assets/icons/heart-filled.svg"
+              alt="Wishlist"
+              className="icon-btn"
+              onClick={() => {
+                if (!AuthService.isAuthenticated()) {
+                  requestLoginPopup();
+                  return;
+                }
+                setPopUpProps({
+                  title: "Ma liste de souhaits",
+                  content: <WishlistPopup />,
+                  onClose: () => setPopUp(false),
+                });
+                setPopUp(true);
+              }}
+            />
           </li>
 
           <li>
-              <Image
-                width={40}
-                height={40}
-                src="/assets/icons/basket.svg"
-                alt="Panier"
-                className="icon-btn"
-                onClick={() => {
+            <Image
+              width={40}
+              height={40}
+              src="/assets/icons/basket.svg"
+              alt="Panier"
+              className="icon-btn"
+              onClick={() => {
+                setPopUpProps({
+                  title: "Mon panier",
+                  content: <CartList />,
+                  onClose: () => setPopUp(false),
+                });
+                setPopUp(true);
+              }}
+            />
+          </li>
+
+          <li>
+            <Image
+              width={24}
+              height={24}
+              src="/assets/icons/user.svg"
+              alt="User Icon"
+              className="icon-btn"
+              onClick={() => {
+                if (user) {
+                  // Si l'utilisateur est connecté, afficher son profil
                   setPopUpProps({
-                    title: "Mon panier",
-                    content: <CartList />,
+                    title: "Mon compte",
+                    content: (
+                      <UserProfile
+                        user={user}
+                        onLogout={async () => {
+                          await AuthService.logout();
+                          setUser(null);
+                          setPopUp(false);
+                          window.location.reload();
+                        }}
+                      />
+                    ),
                     onClose: () => setPopUp(false),
                   });
-                  setPopUp(true);
-                }}
-              />
+                } else {
+                  // Sinon, afficher le formulaire de connexion
+                  setPopUpProps({
+                    title: "",
+                    content: (
+                      <AuthProfileForm
+                        setTitle={setTitle}
+                        onSubmit={() => {
+                          // Recharger l'utilisateur après connexion
+                          AuthService.me().then(setUser).catch(console.error);
+                          setPopUp(false);
+                        }}
+                      />
+                    ),
+                    onClose: () => setPopUp(false),
+                  });
+                }
+                setPopUp(true);
+              }}
+            />
           </li>
-
-          <li>
-              <Image
-                width={24}
-                height={24}
-                src="/assets/icons/user.svg"
-                alt="User Icon"
-                className="icon-btn"
-                onClick={() => {
-                  if (user) {
-                    // Si l'utilisateur est connecté, afficher son profil
-                    setPopUpProps({
-                      title: "Mon compte",
-                      content: (
-                        <UserProfile
-                          user={user}
-                          onLogout={async () => {
-                            await AuthService.logout();
-                            setUser(null);
-                            setPopUp(false);
-                            window.location.reload();
-                          }}
-                        />
-                      ),
-                      onClose: () => setPopUp(false),
-                    });
-                  } else {
-                    // Sinon, afficher le formulaire de connexion
-                    setPopUpProps({
-                      title: "",
-                      content: (
-                        <AuthProfileForm
-                          setTitle={setTitle}
-                          onSubmit={() => {
-                            // Recharger l'utilisateur après connexion
-                            AuthService.me().then(setUser).catch(console.error);
-                            setPopUp(false);
-                          }}
-                        />
-                      ),
-                      onClose: () => setPopUp(false),
-                    });
-                  }
-                  setPopUp(true);
-                }}
-              />
-          </li>
-          {popUp &&
-            <PopUp 
+          {popUp && (
+            <PopUp
               title={popUpProps.title}
               content={popUpProps.content}
               onClose={popUpProps.onClose}
             />
-          }
+          )}
           <p></p>
         </ul>
       </nav>

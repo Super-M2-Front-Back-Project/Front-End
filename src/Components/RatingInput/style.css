@@ -1,0 +1,8 @@
+.RatingContainer {
+    display: flex;
+    flex-warp: no-warp;
+}
+
+.heart-inactive {
+    cursor: pointer;
+}

@@ -1,27 +1,52 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "JUST";
+  src: url("/assets/fonts/JUST-Medium.woff2") format("woff2");
+  font-weight: 400;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: "JUST";
+  src: url("/assets/fonts/JUST-Bold.woff2") format("woff2");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Boldet";
+  src: url("/assets/fonts/Boldet.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --white: #f3eff5;
+  --black: #19121d;
+  --primary: #2f38e2;
+  --primary-hover: #2329b8;
+  --primary-disabled: #6b71f3;
+  --secondary: #f651c4;
+  --secondary-hover: #d645a8;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: var(--white);
+  font-family: "JUST", sans-serif;
+  color: var(--black);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.page-container {
+  color: var(--black);
+  background: var(--white);
+  font-family: "JUST";
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 32px;
 }
 
 * {
@@ -31,8 +56,15 @@ body {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: var(--primary);
+  font-family: "JUST";
+  font-weight: 400;
+  font-size: 16px;
+}
+
+a:hover {
+  color: var(--primary-hover);
 }
 
 @media (prefers-color-scheme: dark) {

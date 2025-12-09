@@ -1,0 +1,49 @@
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-title {
+  font-family: "JUST", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--black);
+  margin: 0;
+}
+
+.review-user {
+  font-family: "JUST", sans-serif;
+  font-size: 14px;
+  color: var(--primary);
+  font-weight: 600;
+  margin: -8px 0 0 0;
+}
+
+.rating-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating-label {
+  font-family: "JUST", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.rating-hearts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.heart-icon {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.heart-icon:hover {
+  transform: scale(1.2);
+}

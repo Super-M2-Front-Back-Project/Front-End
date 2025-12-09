@@ -1,0 +1,47 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.thumbnail-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.thumbnail {
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.product-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.product-category {
+  font-size: 14px;
+  color: var(--primary-disabled);
+  margin-top: 4px;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-price {
+  font-family: "Boldet";
+  font-size: 32px;
+  color: var(--secondary);
+}

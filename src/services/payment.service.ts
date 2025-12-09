@@ -1,3 +1,5 @@
+import { getApiUrl } from '@/lib/api-config';
+
 // Types pour les paiements
 export interface PaymentIntentData {
   amount: number;
@@ -10,7 +12,7 @@ export interface PaymentIntentResponse {
   paymentIntentId: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const getAPI_URL = () => getApiUrl();
 
 /**
  * Récupérer le token d'authentification
@@ -33,7 +35,7 @@ export const PaymentService = {
   async createPaymentIntent(
     data: PaymentIntentData
   ): Promise<PaymentIntentResponse> {
-    const res = await fetch(`${API_URL}/payments/checkout/payment-intent`, {
+    const res = await fetch(`${getAPI_URL()}/payments/checkout/payment-intent`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
@@ -51,7 +53,7 @@ export const PaymentService = {
    * Confirmer un paiement après succès côté client
    */
   async confirmPayment(paymentIntentId: string): Promise<void> {
-    const res = await fetch(`${API_URL}/payments/confirm`, {
+    const res = await fetch(`${getAPI_URL()}/payments/confirm`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({ payment_intent_id: paymentIntentId }),

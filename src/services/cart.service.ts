@@ -1,5 +1,6 @@
 import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
 import { getUserIdFromToken } from "@/utils/jwt";
+import { getApiUrl } from '@/lib/api-config';
 
 // Types pour le panier
 export interface CartItem {
@@ -29,7 +30,7 @@ export interface UpdateCartItemData {
   quantity: number;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const getAPI_URL = () => getApiUrl();
 
 /**
  * Récupérer le token d'authentification
@@ -69,7 +70,7 @@ export const CartService = {
    */
   async getCart(): Promise<Cart> {
     const userId = getUserIdFromJWT();
-    const res = await fetch(`${API_URL}/cart/get/${userId}`, {
+    const res = await fetch(`${getAPI_URL()}/cart/get/${userId}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -96,7 +97,7 @@ export const CartService = {
    */
   async addToCart(data: AddToCartData): Promise<CartItem> {
     const userId = getUserIdFromJWT();
-    const res = await fetch(`${API_URL}/cart/post`, {
+    const res = await fetch(`${getAPI_URL()}/cart/post`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({
@@ -119,7 +120,7 @@ export const CartService = {
    * Mettre à jour la quantité d'un article dans le panier
    */
   async updateCartItem(data: UpdateCartItemData): Promise<CartItem> {
-    const res = await fetch(`${API_URL}/cart/update`, {
+    const res = await fetch(`${getAPI_URL()}/cart/update`, {
       method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
@@ -138,7 +139,7 @@ export const CartService = {
    * Supprimer un article du panier
    */
   async removeCartItem(productId: string): Promise<void> {
-    const res = await fetch(`${API_URL}/cart/delete/item`, {
+    const res = await fetch(`${getAPI_URL()}/cart/delete/item`, {
       method: "DELETE",
       headers: getAuthHeaders(),
       body: JSON.stringify({ product_id: productId }),
@@ -154,7 +155,7 @@ export const CartService = {
    * Vider complètement le panier
    */
   async clearCart(): Promise<void> {
-    const res = await fetch(`${API_URL}/cart/delete/all`, {
+    const res = await fetch(`${getAPI_URL()}/cart/delete/all`, {
       method: "DELETE",
       headers: getAuthHeaders(),
     });

@@ -1,5 +1,6 @@
 import { getCookie } from "@/utils/cookies";
 import { getUserIdFromToken } from "@/utils/jwt";
+import { getApiUrl } from '@/lib/api-config';
 
 // Types pour la wishlist
 export interface WishlistItem {
@@ -20,7 +21,7 @@ export interface AddToWishlistData {
   product_id: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const getAPI_URL = () => getApiUrl();
 
 /**
  * Récupérer le token d'authentification
@@ -58,7 +59,7 @@ export const WishlistService = {
    */
   async getWishlist(): Promise<WishlistItem[]> {
     const userId = getUserIdFromJWT();
-    const res = await fetch(`${API_URL}/wishlist/get/${userId}`, {
+    const res = await fetch(`${getAPI_URL()}/wishlist/get/${userId}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -83,7 +84,7 @@ export const WishlistService = {
    */
   async addToWishlist(data: AddToWishlistData): Promise<WishlistItem> {
     const userId = getUserIdFromJWT();
-    const res = await fetch(`${API_URL}/wishlist/post`, {
+    const res = await fetch(`${getAPI_URL()}/wishlist/post`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({
@@ -106,7 +107,7 @@ export const WishlistService = {
    * Le user_id est extrait du JWT par le backend (claim 'sub')
    */
   async removeFromWishlist(productId: string): Promise<void> {
-    const res = await fetch(`${API_URL}/wishlist/delete`, {
+    const res = await fetch(`${getAPI_URL()}/wishlist/delete`, {
       method: "DELETE",
       headers: getAuthHeaders(),
       body: JSON.stringify({ product_id: productId }),

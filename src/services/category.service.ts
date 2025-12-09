@@ -1,3 +1,5 @@
+import { getApiUrl } from '@/lib/api-config';
+
 export interface Category {
   id: string;
   name: string;
@@ -27,7 +29,7 @@ export const CategoryService = {
     }
 
     // Mode API
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
+    const res = await fetch(`${getApiUrl()}/categories`, {
       next: { revalidate: 3600 },
     });
 
@@ -57,7 +59,7 @@ export const CategoryService = {
 
     // Mode API
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`,
+      `${getApiUrl()}/categories/${id}`,
       {
         cache: "no-store",
       }

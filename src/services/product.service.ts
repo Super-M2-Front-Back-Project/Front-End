@@ -1,3 +1,5 @@
+import { getApiUrl } from '@/lib/api-config';
+
 // Structure finale de l'API
 export interface Product {
   id: string;
@@ -72,12 +74,7 @@ export const ProductService = {
       return product;
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("NEXT_PUBLIC_API_URL is not defined");
-      throw new Error("API URL not configured");
-    }
-
+    const apiUrl = getApiUrl();
     console.log(`${apiUrl}/products/${id}`);
 
     // Mode API
@@ -115,11 +112,7 @@ export const ProductService = {
 
     console.log("Fetching products from API...");
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("NEXT_PUBLIC_API_URL is not defined");
-      return [];
-    }
+    const apiUrl = getApiUrl();
 
     // Mode API
     const res = await fetch(`${apiUrl}/products`, {
@@ -161,11 +154,7 @@ export const ProductService = {
     }
 
     // Mode API
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("NEXT_PUBLIC_API_URL is not defined");
-      return [];
-    }
+    const apiUrl = getApiUrl();
 
     const res = await fetch(
       `${apiUrl}/products/search?q=${encodeURIComponent(query)}`,

@@ -1,3 +1,5 @@
+import { getApiUrl } from '@/lib/api-config';
+
 // Types pour les commandes
 export interface OrderItem {
   id: string;
@@ -31,7 +33,7 @@ export interface CreateOrderData {
   }>;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const getAPI_URL = () => getApiUrl();
 
 /**
  * Récupérer le token d'authentification
@@ -52,7 +54,7 @@ export const OrderService = {
    * Créer une nouvelle commande à partir du panier
    */
   async createOrder(data?: CreateOrderData): Promise<Order> {
-    const res = await fetch(`${API_URL}/orders`, {
+    const res = await fetch(`${getAPI_URL()}/orders`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: data ? JSON.stringify(data) : undefined,
@@ -71,7 +73,7 @@ export const OrderService = {
    * Récupérer toutes les commandes de l'utilisateur
    */
   async getOrders(): Promise<Order[]> {
-    const res = await fetch(`${API_URL}/orders`, {
+    const res = await fetch(`${getAPI_URL()}/orders`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -88,7 +90,7 @@ export const OrderService = {
    * Récupérer une commande spécifique par son ID
    */
   async getOrderById(orderId: string): Promise<Order> {
-    const res = await fetch(`${API_URL}/orders/${orderId}`, {
+    const res = await fetch(`${getAPI_URL()}/orders/${orderId}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -105,7 +107,7 @@ export const OrderService = {
    * Annuler une commande
    */
   async cancelOrder(orderId: string): Promise<void> {
-    const res = await fetch(`${API_URL}/orders/${orderId}/cancel`, {
+    const res = await fetch(`${getAPI_URL()}/orders/${orderId}/cancel`, {
       method: "POST",
       headers: getAuthHeaders(),
     });

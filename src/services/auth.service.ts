@@ -1,5 +1,6 @@
 import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
 import { getUserIdFromToken, getEmailFromToken, getRoleFromToken, decodeJWT } from "@/utils/jwt";
+import { getApiUrl } from '@/lib/api-config';
 
 // Types pour l'authentification
 export interface User {
@@ -58,7 +59,7 @@ export interface ResetPasswordData {
   password: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const getAPI_URL = () => getApiUrl();
 
 export const AuthService = {
   /**
@@ -67,7 +68,7 @@ export const AuthService = {
   async register(data: RegisterData): Promise<AuthResponse> {
     console.log("REGISTER");
     
-    const res = await fetch(`${API_URL}/auth/register`, {
+    const res = await fetch(`${getAPI_URL()}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +88,7 @@ export const AuthService = {
    * Connexion d'un utilisateur
    */
   async login(data: LoginData): Promise<AuthResponse> {
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch(`${getAPI_URL()}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -121,7 +122,7 @@ export const AuthService = {
     }
 
     try {
-      await fetch(`${API_URL}/auth/logout`, {
+      await fetch(`${getAPI_URL()}/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +145,7 @@ export const AuthService = {
       throw new Error("No token found");
     }
 
-    const res = await fetch(`${API_URL}/auth/me`, {
+    const res = await fetch(`${getAPI_URL()}/auth/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +169,7 @@ export const AuthService = {
    * Demander un email de réinitialisation de mot de passe
    */
   async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
-    const res = await fetch(`${API_URL}/auth/forgot-password`, {
+    const res = await fetch(`${getAPI_URL()}/auth/forgot-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -188,7 +189,7 @@ export const AuthService = {
    * Réinitialiser le mot de passe avec un token
    */
   async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
-    const res = await fetch(`${API_URL}/auth/reset-password`, {
+    const res = await fetch(`${getAPI_URL()}/auth/reset-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

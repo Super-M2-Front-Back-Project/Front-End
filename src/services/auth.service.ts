@@ -1,3 +1,5 @@
+import { setCookie, getCookie, deleteCookie, hasCookie } from "@/utils/cookies";
+
 // Types pour l'authentification
 export interface User {
   id: string;
@@ -99,9 +101,9 @@ export const AuthService = {
 
     const authData = await res.json();
 
-    // Stocker le token dans le localStorage
+    // Stocker le token dans un cookie
     if (authData.token) {
-      localStorage.setItem("token", authData.token);
+      setCookie("token", authData.token, 7); // 7 jours
     }
 
     return authData;
@@ -111,7 +113,7 @@ export const AuthService = {
    * Déconnexion d'un utilisateur
    */
   async logout(): Promise<void> {
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
 
     if (!token) {
       return;
@@ -126,8 +128,8 @@ export const AuthService = {
         },
       });
     } finally {
-      // Supprimer le token du localStorage même si la requête échoue
-      localStorage.removeItem("token");
+      // Supprimer le token du cookie même si la requête échoue
+      deleteCookie("token");
     }
   },
 
@@ -135,7 +137,7 @@ export const AuthService = {
    * Récupérer les informations de l'utilisateur connecté
    */
   async me(): Promise<User> {
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
 
     if (!token) {
       throw new Error("No token found");
@@ -152,7 +154,7 @@ export const AuthService = {
     if (!res.ok) {
       // Si le token est invalide, le supprimer
       if (res.status === 401) {
-        localStorage.removeItem("token");
+        deleteCookie("token");
       }
       throw new Error("Failed to fetch user");
     }
@@ -205,13 +207,13 @@ export const AuthService = {
    * Vérifier si l'utilisateur est connecté
    */
   isAuthenticated(): boolean {
-    return !!localStorage.getItem("token");
+    return hasCookie("token");
   },
 
   /**
    * Récupérer le token
    */
   getToken(): string | null {
-    return localStorage.getItem("token");
+    return getCookie("token");
   },
 };

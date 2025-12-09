@@ -4,15 +4,31 @@ import React, { useState, useEffect } from "react";
 import InputField from "../InputField";
 import Button from "../Button";
 import { AuthService } from "@/services";
-import { cookies } from "next/headers";
 import "./style.css";
 
 type Mode = "login" | "register" | "profile";
 
+type FormData = {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  birthdate: string;
+  street: string;
+  postal_code: string;
+  city: string;
+  phone: string;
+};
+
+type AuthResponse = {
+  token?: string;
+  user?: unknown;
+};
+
 type AuthProfileFormProps = {
   mode?: Mode;
   setTitle: (title: string) => void;
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: AuthResponse) => void;
   initialProfile?: {
     email?: string;
     first_name?: string;
@@ -25,7 +41,7 @@ type AuthProfileFormProps = {
   };
 };
 
-export default async function AuthProfileForm({
+export default function AuthProfileForm({
   mode = "login",
   onSubmit,
   setTitle,
@@ -33,7 +49,7 @@ export default async function AuthProfileForm({
 }: AuthProfileFormProps) {
   const [currentMode, setCurrentMode] = useState<Mode>(mode);
 
-  const [data, setData] = useState<any>({
+  const [data, setData] = useState<FormData>({
     email: "",
     password: "",
     first_name: "",
@@ -45,10 +61,8 @@ export default async function AuthProfileForm({
     phone: "",
   });
 
-  const cookiesStore = await cookies();
-
-  const handleChange = (field: string, value: string) => {
-    setData((prevData: any) => ({
+  const handleChange = (field: keyof FormData, value: string) => {
+    setData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
@@ -58,15 +72,13 @@ export default async function AuthProfileForm({
   e.preventDefault();
 
   try {
-    let response;
+    let response: AuthResponse = {};
 
     if (currentMode === "login") {
       response = await AuthService.login({
         email: data.email,
         password: data.password,
       });
-
-      cookiesStore.set("token", response.token);
     }
 
     if (currentMode === "register") {
@@ -100,7 +112,7 @@ export default async function AuthProfileForm({
     // callback si fourni
     if (onSubmit) onSubmit(response);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Erreur du formulaire :", error);
   }
 };

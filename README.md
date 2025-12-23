@@ -1,2 +1,2 @@
 # Frontend
-Développé par SALVATI Enzo & EL HANY Ibtissam
+Développé par SALVATI Enzo, EL HANY Ibtissam & ETHEVE Coranthin
